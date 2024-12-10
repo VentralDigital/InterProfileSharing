@@ -8,6 +8,30 @@ No complicated setup. No fancy hacks. Well-established dependencies. Free Open S
 
 Although this App will run on any Android 14+ phone, it was designed and tested for GrapheneOS which comes with various [**improvements to Android's User Profiles**](https://grapheneos.org/features#improved-user-profiles). Profiles allow isolating Apps from each other such that users are able to keep sensitive Applications separate from less trustworthy ones. Although GrapheneOS encourages their use, so much so that they raised the limit from 4 to 32 profiles per device, actually using them can be quite inconvenient. This App attempts to alleviate the arguably biggest pain point: The isolation of the file system between profiles, which requires less than optimal methods to bypass such as using USB Sticks, 3rd party Cloud Synchronization, or Messaging Apps to move files between profiles.
 
+<a href="https://accrescent.app/app/digital.ventral.ips">
+    <img alt="Get it on Accrescent" src="https://accrescent.app/badges/get-it-on.png" height="80">
+</a>
+<a href="https://github.com/VentralDigital/InterProfileSharing/releases">
+    <img alt="Get it on GitHub" src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" height="80">
+</a>
+<a href="https://f-droid.org/packages/digital.ventral.ips">
+    <img alt="Get it on F-Droid" src="https://f-droid.org/badge/get-it-on.png" height="80">
+</a>
+
+The [Accrescent App Store](https://accrescent.app/) is the recommended way to download and install Inter Profile Sharing.
+
+Alternatively it's available on [F-Droid](https://f-droid.org/packages/digital.ventral.ips) as [reproducible build](https://f-droid.org/en/docs/Reproducible_Builds/).
+
+It's also possible to directly install it from [GitHub](https://github.com/VentralDigital/InterProfileSharing/releases) via your device's browser, but you won't receive updates that way. Instead, use [Obtainium](https://github.com/ImranR98/Obtainium) which will regularly check for new releases made on GitHub.
+
+[AppVerifier](https://github.com/soupslurpr/AppVerifier) is the easiest way to ensure that you really have the official version of Inter Profile Sharing and not a malicious copy. Alternatively you can verify the signature (ie. the signer certificate fingerprint) manually with the following command:
+
+```bash
+apksigner verify --print-certs ips-1.0.apk | grep SHA-256
+```
+
+In both cases, the fingerprint should match with `03243d0c0d44b6e0b41e3cb245b1dc269be4c3ffe177f843fc005bc4ea0c7426`.
+
 <a href="./metadata/en-US/images/phoneScreenshots/screenshot-main-activity.png" target="_blank"><img src="./metadata/en-US/images/phoneScreenshots/screenshot-main-activity.png" width="270"></a>
 <a href="./metadata/en-US/images/phoneScreenshots/screenshot-settings-activity.png" target="_blank"><img src="./metadata/en-US/images/phoneScreenshots/screenshot-settings-activity.png" width="270"></a>
 <a href="./metadata/en-US/images/phoneScreenshots/screenshot-share-from-gallery.png" target="_blank"><img src="./metadata/en-US/images/phoneScreenshots/screenshot-share-from-gallery.png" width="270"></a>
@@ -19,6 +43,11 @@ Although this App will run on any Android 14+ phone, it was designed and tested 
 If you haven't, allow *multiple users* on your device by going into *Settings &raquo; System &raquo; Users*. You could create separate profiles for various types of Apps: Social Media, Encrypted Messengers, Banking, and maybe one for the bullshit App your gym forces you to have. Note though that switching between profiles can take several seconds. It's more convenient to have a profile containing all the Apps you often use during the day, and separate the others into different profiles.
 
 Install this App within each profile that you want to share data with (no way around this, sorry). If you begin by installing this App within the Owner profile, you can easily install it into other profiles via *Install available apps* when editing a User.
+
+* Works right out of the box without any setup
+* Also works with Private Spaces and Work Profiles
+* Completely local, also works in Airplaine mode
+* Tapping "Stop Sharing" on the notification completely shuts sharing down
 
 ## Security
 
@@ -34,18 +63,6 @@ Install this App within each profile that you want to share data with (no way ar
 You can instantly start sharing files between profiles after installation, but it's recommended to turn on encryption within the App's settings. This requires setting **the same** *Sharing Password* within the App **in each profile**. Once configured, other applications running on your phone will not be able to access any of the data your sharing.
 
 This feature is arguably paranoid. For another application to access information shared through this App, it would need to be explicitly programmed to do so. Enabling encryption will make data transfers slower, possibly less reliable, but it will certainly prevent such malicious Apps from accessing what you're sharing without your permission. Assuming you chose a nice, long password, that is.
-
-### Download and Verification
-
-The App's installation packages (APK files) can be found on the [Releases](https://github.com/VentralDigital/InterProfileSharing/releases) page. The .apk file can be downloaded and installed using your phone's browser. It may ask you to enable App installations from 3rd party sources first.
-
-If you want to be sure you actually downloaded the real thing, you can first check whether the SHA-256 hash specified in the release matches with what the `sha256sum` command outputs locally. The APKs are built within an isolated development environment and signed therein. To verify the signature you can run the following command: 
-
-```bash
-apksigner verify --print-certs ips-1.0.apk | grep SHA-256
-```
-
-The output should match `03243d0c0d44b6e0b41e3cb245b1dc269be4c3ffe177f843fc005bc4ea0c7426`
 
 ## Troubleshooting
 
@@ -121,6 +138,8 @@ If the user desires to do something with a shared file, it will always first be 
 
 ## Development & Translation
 
+This app is mostly considered "feature complete" and there's no active development at this moment. Changes to ensure that this app will keep running with future Android/GrapheneOS version will be provided as necessary. Reported bugs will be fixed as soon as possible depending on their severity. Feature requests are welcome and may be implemented when they make sense and there's time. If you'd really like to see a change get into the codebase quicker, please implement it and submit a pull request. 
+
 ### Contribution
 
 If you're looking to contribute changes to the code, I recommend locally cloning a fork of this repository and importing the project into AndroidStudio. If you're looking to contribute additions or corrections to the translations, you can use AndroidStudio as well, or just edit the raw translation files (If you don't understand the file format, try pasting them into ChatGPT and translate it with its help). The default language is `en-US` and texts from within the App are located at [`/app/src/main/res`](https://github.com/VentralDigital/InterProfileSharing/tree/main/app/src/main/res) within the `values` folders. Texts for App Stores are located in the [`/metadata`](https://github.com/VentralDigital/InterProfileSharing/tree/main/metadata) directory. After you've finished working on your changes, create a Pull Request into this repositories main branch. If all of this is too complicated, feel free to just [create an issue](https://github.com/VentralDigital/InterProfileSharing/issues/new) instead.
@@ -171,6 +190,8 @@ keytool -printcert -jarfile app/build/outputs/bundle/release/app-release.aab
 ```
 
 In this case the `app-release.aab` file has been directly replaced with its signed version.
+
+Note: This App was submitted to the Google Play Store for review but they rejected it due to "High Risk Behavior" and terminated the associated account. Honestly no clue what their problem is but they are free to go fuck themselves.
 
 #### Accrescent
 
