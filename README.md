@@ -1,5 +1,26 @@
 <img src="./metadata/en-US/images/featureGraphic.jpg">
 
+<details><summary>v1.1 Features (Upcoming)</summary>
+
+* [#17](https://github.com/VentralDigital/InterProfileSharing/issues/17) Sharing Contacts across Android User Profiles
+* [#16](https://github.com/VentralDigital/InterProfileSharing/issues/16) Homescreen Shortcuts allow quick sharing
+* [#15](https://github.com/VentralDigital/InterProfileSharing/issues/15) Support sharing Non-Text Clipboard Items
+* [#12](https://github.com/VentralDigital/InterProfileSharing/issues/12) UX: Ability to shut down the App currently sharing remotely
+* [#13](https://github.com/VentralDigital/InterProfileSharing/issues/13) UI: Display buttons in columns during landscape mode
+* [#14](https://github.com/VentralDigital/InterProfileSharing/issues/14) UI: App Settings default to System theme
+* [#18](https://github.com/VentralDigital/InterProfileSharing/issues/18) Bugfix: Delay in ServerService start causes it to crash
+
+</details>
+
+<details><summary>v1.0 Features (Latest)</summary>
+
+* Share Links, Files, and Text across Android User Profiles
+* Share Files or Links from other Applications to this App to share them with other User Profiles
+* Share Clip Board contents across Android User Profiles
+* Inter-Profile communication can optionally be encrypted (AES with key derived from a Password set in this App in both profiles)
+
+</details>
+
 # Inter Profile Sharing
 
 This is a purposefully simple, native App that allows forwarding media and text to another Android User Profile as easily as sharing it with another App.
