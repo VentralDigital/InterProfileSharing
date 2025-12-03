@@ -69,6 +69,7 @@
     <string name="notifications_share_files_download_share_choose_title">准备分享%1$s</string>
     <string name="notifications_share_files_download_share_choose_description">点击分享</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">准备分享%1$s个文件</string>
+    <string name="notifications_share_remote_shutdown">在其他配置文件中仍在共享</string>
     <string name="notifications_server_title">跨配置文件共享</string>
     <string name="notifications_server_action_stop">停止共享</string>
     <string name="notifications_server_description_ready">就绪，但未共享内容</string>

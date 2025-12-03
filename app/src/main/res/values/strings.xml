@@ -68,6 +68,7 @@
     <string name="notifications_share_files_download_share_choose_title">Ready to share %1$s</string>
     <string name="notifications_share_files_download_share_choose_description">Tap to choose how to share</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">Ready to share %1$s files</string>
+    <string name="notifications_share_remote_shutdown">Sharing is still active in another profile</string>
     <string name="notifications_server_title">Inter Profile Sharing</string>
     <string name="notifications_server_action_stop">Stop Sharing</string>
     <string name="notifications_server_description_ready">Ready but not sharing anything</string>

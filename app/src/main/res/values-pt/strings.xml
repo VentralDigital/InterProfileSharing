@@ -69,6 +69,7 @@
     <string name="notifications_share_files_download_share_choose_title">Pronto para compartilhar %1$s</string>
     <string name="notifications_share_files_download_share_choose_description">Toque para compartilhar</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">Pronto para compartilhar %1$s arquivos</string>
+    <string name="notifications_share_remote_shutdown">Compartilhamento ativo em outro perfil</string>
     <string name="notifications_server_title">Compartilhamento entre Perfis</string>
     <string name="notifications_server_action_stop">Parar compartilhamento</string>
     <string name="notifications_server_description_ready">Pronto, mas nada compartilhado</string>

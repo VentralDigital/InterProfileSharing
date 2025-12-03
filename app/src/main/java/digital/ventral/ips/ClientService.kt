@@ -243,7 +243,7 @@ class ClientService : BaseService() {
         )
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(getString(R.string.notifications_server_title))
-            .setContentText("SHARING ACTIVE IN ANOTHER PROFILE")
+            .setContentText(getString(R.string.notifications_share_remote_shutdown))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.notifications_server_action_stop), remoteShutdownPendingIntent)
