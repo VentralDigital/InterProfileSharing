@@ -195,5 +195,10 @@ abstract class BaseService : Service() {
         return contentResolver.getType(uri)
     }
 
+    internal fun hasActiveNotifications(): Boolean {
+        val nm = getSystemService(NotificationManager::class.java)
+        return nm.activeNotifications.isNotEmpty()
+    }
+
     override fun onBind(intent: Intent): IBinder? = null
 }

@@ -1,6 +1,7 @@
 package digital.ventral.ips
 
 import android.app.DownloadManager
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -36,6 +37,8 @@ class ClientService : BaseService() {
         private const val ACTION_DOWNLOAD_FILES = "digital.ventral.ips.action.DOWNLOAD_FILES"
         private const val ACTION_SHARE_FILES = "digital.ventral.ips.action.SHARE_FILES"
         private const val ACTION_COPY_TEXT = "digital.ventral.ips.action.COPY_TEXT"
+        private const val ACTION_REMOTE_SHUTDOWN = "digital.ventral.ips.action.REMOTE_SHUTDOWN"
+        private const val REMOTE_SHUTDOWN_NOTIFICATION_ID = 1
         private const val EXTRA_FILE_URI = "digital.ventral.ips.extra.FILE_URI"
         private const val EXTRA_FILE_NAME = "digital.ventral.ips.extra.FILE_NAME"
         private const val EXTRA_FILE_SIZE = "digital.ventral.ips.extra.FILE_SIZE"
@@ -211,10 +214,42 @@ class ClientService : BaseService() {
                         createGroupShareNotification(mimeType, items, notificationId)
                     }
                 }
+                // Offer the User to shut down the Server in another Profile,
+                // when we've already dealt with all of its shared items.
+                else if (!hasActiveNotifications()) {
+                    createRemoteShutdownNotification()
+                }
             }
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Failed to request SHARES_SINCE", e)
         }
+    }
+
+    /**
+     * Creates a notification to shut down the remote Server.
+     *
+     * The notification allows a user to shut down a Server running in another Profile without
+     * having to manually switch back to it.
+     */
+    private fun createRemoteShutdownNotification() {
+        val remoteShutdownIntent = Intent(this, ClientService::class.java).apply {
+            action = ACTION_REMOTE_SHUTDOWN
+        }
+        val remoteShutdownPendingIntent = PendingIntent.getService(
+            this,
+            0,
+            remoteShutdownIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setContentTitle(getString(R.string.notifications_server_title))
+            .setContentText("SHARING ACTIVE IN ANOTHER PROFILE")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.notifications_server_action_stop), remoteShutdownPendingIntent)
+            .build()
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.notify(REMOTE_SHUTDOWN_NOTIFICATION_ID, notification)
     }
 
     /**
@@ -476,6 +511,19 @@ class ClientService : BaseService() {
             ACTION_COPY_TEXT -> {
                 val text = intent.getStringExtra(EXTRA_TEXT)
                 if (text != null) handleCopyTextAction(text)
+            }
+            // User tapped on "Stop Sharing" button to shutdown a Server running in another Profile.
+            ACTION_REMOTE_SHUTDOWN -> {
+                runBlocking(Dispatchers.IO) {
+                    if (!isPortAvailable()) {
+                        runBlocking {
+                            sendStopSharing()
+                            // Remove the notification.
+                            val notificationManager = getSystemService(NotificationManager::class.java)
+                            notificationManager.cancel(REMOTE_SHUTDOWN_NOTIFICATION_ID)
+                        }
+                    }
+                }
             }
             else -> {
                 // Service was started unrelated to notification actions. Use this as an opportunity
