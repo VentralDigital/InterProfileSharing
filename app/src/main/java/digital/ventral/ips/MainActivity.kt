@@ -326,70 +326,48 @@ fun ContentColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, 
 @Composable
 fun ShareButtonsLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
     BoxWithConstraints(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier = modifier.fillMaxSize()
     ) {
         if (this@BoxWithConstraints.maxHeight >= this@BoxWithConstraints.maxWidth) {
-            ShareButtonsVerticalLayout(
-                modifier = Modifier,
-                onShareFilesClick = onShareFilesClick,
-                onShareClipboardClick = onShareClipboardClick
-            )
+            Column(modifier) {
+                ShareButtons(
+                    modifier = Modifier.weight(1f),
+                    onShareFilesClick = onShareFilesClick,
+                    onShareClipboardClick = onShareClipboardClick
+                )
+            }
         } else {
-            ShareButtonsHorizontalLayout(
-                modifier = Modifier,
-                onShareFilesClick = onShareFilesClick,
-                onShareClipboardClick = onShareClipboardClick
-            )
+            Row(modifier) {
+                ShareButtons(
+                    modifier = Modifier.weight(1f),
+                    onShareFilesClick = onShareFilesClick,
+                    onShareClipboardClick = onShareClipboardClick
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ShareButtonsVerticalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
-    Column(
+fun ShareButtons(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
+    LargeButton(
+        title = stringResource(R.string.main_button_share_files_title),
+        description = stringResource(R.string.main_button_share_files_description),
+        onClick = onShareFilesClick,
         modifier = modifier
-            .fillMaxSize()
-    ) {
-        // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
-        LargeButton(
-            title = stringResource(R.string.main_button_share_files_title),
-            description = stringResource(R.string.main_button_share_files_description),
-            onClick = onShareFilesClick,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        LargeButton(
-            title = stringResource(R.string.main_button_share_text_title),
-            description = stringResource(R.string.main_button_share_text_description),
-            onClick = onShareClipboardClick,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-fun ShareButtonsHorizontalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
-    Row(
+    )
+    LargeButton(
+        title = stringResource(R.string.main_button_share_text_title),
+        description = stringResource(R.string.main_button_share_text_description),
+        onClick = onShareClipboardClick,
         modifier = modifier
-            .fillMaxSize()
-    ) {
-        // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
-        LargeButton(
-            title = stringResource(R.string.main_button_share_files_title),
-            description = stringResource(R.string.main_button_share_files_description),
-            onClick = onShareFilesClick,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        LargeButton(
-            title = stringResource(R.string.main_button_share_text_title),
-            description = stringResource(R.string.main_button_share_text_description),
-            onClick = onShareClipboardClick,
-            modifier = Modifier.weight(1f)
-        )
-    }
+    )
+    LargeButton(
+        title = "Share Contact",
+        description = "Select a Contact to share with other profiles that have this App installed.",
+        onClick = onShareClipboardClick,
+        modifier = modifier
+    )
 }
 
 @Composable
