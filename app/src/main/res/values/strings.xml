@@ -31,6 +31,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">This App requires notifications. No spam, promise.</string>
     <string name="message_clipboard_empty">Clipboard is empty.</string>
+    <string name="message_clipboard_error">Clipboard item is not shareable.</string>
     <string name="message_files_none">No files selected.</string>
     <string name="message_password_invalid">Password must be at least 8 characters long.</string>
     <string name="message_key_generation_failed">Failed to generate encryption key from Shared Password</string>

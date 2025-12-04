@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">يحتاج هذا التطبيق إلى الإشعارات. لا رسائل مزعجة، وعد.</string>
     <string name="message_clipboard_empty">الحافظة فارغة.</string>
+    <string name="message_clipboard_error">عنصر الحافظة غير قابل للمشاركة.</string>
     <string name="message_files_none">لم يتم اختيار ملفات.</string>
     <string name="message_password_invalid">يجب أن تحتوي كلمة المرور على ٨ أحرف على الأقل.</string>
     <string name="message_key_generation_failed">فشل إنشاء مفتاح AES من كلمة المرور المشتركة</string>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -130,15 +131,50 @@ class MainActivity : ComponentActivity() {
     private fun onShareClipboardClick() {
         val clipboard = getSystemService(ClipboardManager::class.java)
         val clipData: ClipData? = clipboard.primaryClip
-        if (clipData != null && clipData.itemCount > 0) {
-            val text = clipData.getItemAt(0).text?.toString()
-            if (!text.isNullOrEmpty()) {
-                handleShareText(text)
-            } else {
-                showToast(getString(R.string.message_clipboard_empty))
-            }
-        } else {
+        if (clipData == null || clipData.itemCount == 0) {
             showToast(getString(R.string.message_clipboard_empty))
+            return
+        }
+
+        // If we encounter a local media URI (content://) in the clipboard,
+        // we share it like a file instead. Such non-text items may appear
+        // in the clipboard when the user copied an image from a website.
+        val fileUris = mutableListOf<Uri>()
+
+        // Clipboard might hold multiple copied items at once. All of them
+        // represent current clipboard contents, not a history of copied items.
+        for (idx in 0 until clipData.itemCount) {
+            val item = clipData.getItemAt(idx)
+            val uri = item.uri
+
+            // First, try to handle content:// URIs.
+            if (uri != null && "content".equals(uri.scheme, ignoreCase = true)) {
+                // Sanity Check: If we can't find out the file's size, we won't be able to share it.
+                val fileSize = contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)?.use {
+                    if (it.moveToFirst()) it.getLong(0) else -1L
+                }
+                if (fileSize != null) {
+                    fileUris += uri
+                    continue
+                }
+            }
+
+            // Alternatively, fallback to attempt coercing clipboard item into text.
+            val coercedText = try {
+                item.coerceToText(this)?.toString()
+            } catch (e: Exception) {
+                null
+            }
+            if (!coercedText.isNullOrBlank()) {
+                handleShareText(coercedText)
+            }
+            else {
+                showToast(getString(R.string.message_clipboard_error))
+            }
+        }
+
+        if (fileUris.isNotEmpty()) {
+            handleShareFiles(fileUris)
         }
     }
 

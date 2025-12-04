@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Diese App benötigt Benachrichtigungen. Kein Spam, versprochen.</string>
     <string name="message_clipboard_empty">Zwischenablage ist leer.</string>
+    <string name="message_clipboard_error">Inhalt der Zwischenablage kann nicht geteilt werden.</string>
     <string name="message_files_none">Keine Dateien ausgewählt.</string>
     <string name="message_password_invalid">Passwort muss mindestens 8 Zeichen lang sein.</string>
     <string name="message_key_generation_failed">Generierung des AES Schlüssels aus dem gemeinsamen Passwort fehlgeschlagen</string>

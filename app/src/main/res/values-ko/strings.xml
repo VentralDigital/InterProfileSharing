@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">이 앱은 알림이 필요합니다. 스팸은 보내지 않습니다.</string>
     <string name="message_clipboard_empty">클립보드가 비어 있습니다.</string>
+    <string name="message_clipboard_error">클립보드 항목은 공유할 수 없습니다.</string>
     <string name="message_files_none">선택된 파일이 없습니다.</string>
     <string name="message_password_invalid">비밀번호는 최소 8자 이상이어야 합니다.</string>
     <string name="message_key_generation_failed">공유 비밀번호에서 AES 키 생성 실패</string>

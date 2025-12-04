@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">此应用需要通知权限。保证不会发送垃圾信息。</string>
     <string name="message_clipboard_empty">剪贴板为空。</string>
+    <string name="message_clipboard_error">剪贴板内容无法共享。</string>
     <string name="message_files_none">未选择文件。</string>
     <string name="message_password_invalid">密码至少需要 8 个字符。</string>
     <string name="message_key_generation_failed">从共享密码生成 AES 密钥失败</string>

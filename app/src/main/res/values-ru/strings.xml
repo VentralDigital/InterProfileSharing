@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Приложению нужны уведомления. Спама не будет, обещаю.</string>
     <string name="message_clipboard_empty">Буфер обмена пуст.</string>
+    <string name="message_clipboard_error">Элемент из буфера обмена нельзя передать.</string>
     <string name="message_files_none">Файлы не выбраны.</string>
     <string name="message_password_invalid">Пароль должен быть не менее 8 символов.</string>
     <string name="message_key_generation_failed">Не удалось создать ключ AES из общего пароля</string>

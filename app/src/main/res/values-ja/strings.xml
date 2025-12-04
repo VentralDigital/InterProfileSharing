@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">通知が必要です。スパムはありません。</string>
     <string name="message_clipboard_empty">クリップボードが空です</string>
+    <string name="message_clipboard_error">クリップボードの内容は共有できません</string>
     <string name="message_files_none">ファイルが選択されていません</string>
     <string name="message_password_invalid">パスワードは8文字以上必要です</string>
     <string name="message_key_generation_failed">暗号化キーの生成に失敗しました</string>

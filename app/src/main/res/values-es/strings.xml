@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Esta app necesita notificaciones. Sin spam, lo prometo.</string>
     <string name="message_clipboard_empty">El portapapeles está vacío.</string>
+    <string name="message_clipboard_error">El contenido del portapapeles no se puede compartir.</string>
     <string name="message_files_none">No hay archivos seleccionados.</string>
     <string name="message_password_invalid">La contraseña debe tener al menos 8 caracteres.</string>
     <string name="message_key_generation_failed">Error al generar la clave AES de la contraseña compartida</string>

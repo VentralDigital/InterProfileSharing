@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Este aplicativo precisa de notificações. Sem spam, prometo.</string>
     <string name="message_clipboard_empty">Área de transferência vazia.</string>
+    <string name="message_clipboard_error">Item da área de transferência não pode ser compartilhado.</string>
     <string name="message_files_none">Nenhum arquivo selecionado.</string>
     <string name="message_password_invalid">A senha deve ter pelo menos 8 caracteres.</string>
     <string name="message_key_generation_failed">Erro ao gerar chave AES da senha compartilhada</string>

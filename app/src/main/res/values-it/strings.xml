@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Questa app ha bisogno delle notifiche. Niente spam, promesso!</string>
     <string name="message_clipboard_empty">Gli appunti sono vuoti.</string>
+    <string name="message_clipboard_error">L\'elemento negli appunti non è condivisibile.</string>
     <string name="message_files_none">Nessun file selezionato.</string>
     <string name="message_password_invalid">La password deve essere di almeno 8 caratteri.</string>
     <string name="message_key_generation_failed">Errore nella generazione della chiave AES dalla password condivisa</string>

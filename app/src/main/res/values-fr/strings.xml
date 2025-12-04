@@ -32,6 +32,7 @@
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Cette application nécessite des notifications. Pas de spam, promis !</string>
     <string name="message_clipboard_empty">Le presse-papiers est vide.</string>
+    <string name="message_clipboard_error">L\'élément du presse-papiers ne peut pas être partagé.</string>
     <string name="message_files_none">Aucun fichier sélectionné.</string>
     <string name="message_password_invalid">Le mot de passe doit contenir au moins 8 caractères.</string>
     <string name="message_key_generation_failed">Échec de la génération de la clé AES à partir du mot de passe partagé</string>
