@@ -38,6 +38,7 @@ class ClientService : BaseService() {
         private const val ACTION_SHARE_FILES = "digital.ventral.ips.action.SHARE_FILES"
         private const val ACTION_COPY_TEXT = "digital.ventral.ips.action.COPY_TEXT"
         private const val ACTION_REMOTE_SHUTDOWN = "digital.ventral.ips.action.REMOTE_SHUTDOWN"
+        private const val ACTION_DELETE_NOTIFICATION = "digital.ventral.ips.action.ACTION_DELETE_NOTIFICATION"
         private const val REMOTE_SHUTDOWN_NOTIFICATION_ID = 1
         private const val EXTRA_FILE_URI = "digital.ventral.ips.extra.FILE_URI"
         private const val EXTRA_FILE_NAME = "digital.ventral.ips.extra.FILE_NAME"
@@ -285,6 +286,7 @@ class ClientService : BaseService() {
     private fun createShareNotification(item: SharedItem, notificationId: Int) {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setDeleteIntent(createDeleteNotificationIntent())
             .apply {
                 when (item.type) {
                     SharedItem.TYPE_FILE -> {
@@ -341,6 +343,7 @@ class ClientService : BaseService() {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(getString(R.string.notifications_share_files_title, mimeType))
             .setContentText(getString(R.string.notifications_share_files_description, "$fileCount", sizeStr))
+            .setDeleteIntent(createDeleteNotificationIntent())
             .addAction(
                 android.R.drawable.ic_menu_save,
                 getString(R.string.notifications_share_files_action_download),
@@ -473,6 +476,21 @@ class ClientService : BaseService() {
     }
 
     /**
+     * Pending Intent to react to shared-item notifications having been deleted (swiped away).
+     */
+    private fun createDeleteNotificationIntent(): PendingIntent {
+        val intent = Intent(this, ClientService::class.java).apply {
+            action = ACTION_DELETE_NOTIFICATION
+        }
+        return PendingIntent.getService(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    /**
      * Called via onStartCommand(), handles Intents passed as Service Start parameter.
      */
     private fun handleIncomingIntent(intent: Intent) {
@@ -523,6 +541,13 @@ class ClientService : BaseService() {
                             notificationManager.cancel(REMOTE_SHUTDOWN_NOTIFICATION_ID)
                         }
                     }
+                }
+            }
+            // User deleted (swiped away) a shared-item notification.
+            ACTION_DELETE_NOTIFICATION -> {
+                // If that was the last notification, offer the User to remotely shut down sharing.
+                if (!hasActiveNotifications()) {
+                    createRemoteShutdownNotification()
                 }
             }
             else -> {
