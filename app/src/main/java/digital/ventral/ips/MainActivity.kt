@@ -277,7 +277,7 @@ fun ContentColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, 
             modifier = Modifier.padding(bottom = 16.dp)
         )
         // Large Share Files / Copied Text Buttons below explanatory text.
-        ButtonColumn(
+        ShareButtonsLayout(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
@@ -288,11 +288,33 @@ fun ContentColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, 
 }
 
 @Composable
-fun ButtonColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
-    Column(
+fun ShareButtonsLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
+    ) {
+        if (this@BoxWithConstraints.maxHeight >= this@BoxWithConstraints.maxWidth) {
+            ShareButtonsVerticalLayout(
+                modifier = Modifier,
+                onShareFilesClick = onShareFilesClick,
+                onShareClipboardClick = onShareClipboardClick
+            )
+        } else {
+            ShareButtonsHorizontalLayout(
+                modifier = Modifier,
+                onShareFilesClick = onShareFilesClick,
+                onShareClipboardClick = onShareClipboardClick
+            )
+        }
+    }
+}
+
+@Composable
+fun ShareButtonsVerticalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
     ) {
         // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
         LargeButton(
@@ -302,6 +324,29 @@ fun ButtonColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, o
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.height(16.dp))
+        LargeButton(
+            title = stringResource(R.string.main_button_share_text_title),
+            description = stringResource(R.string.main_button_share_text_description),
+            onClick = onShareClipboardClick,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Composable
+fun ShareButtonsHorizontalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
+    Row(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
+        LargeButton(
+            title = stringResource(R.string.main_button_share_files_title),
+            description = stringResource(R.string.main_button_share_files_description),
+            onClick = onShareFilesClick,
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
         LargeButton(
             title = stringResource(R.string.main_button_share_text_title),
             description = stringResource(R.string.main_button_share_text_description),
