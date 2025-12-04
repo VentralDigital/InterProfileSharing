@@ -42,7 +42,7 @@
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/settings_activity_title"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.DayNight" />
         <service
             android:name=".ServerService"
             android:enabled="true"
