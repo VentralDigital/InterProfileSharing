@@ -212,9 +212,14 @@ class ServerService : BaseService() {
         try {
             // Handle taps on the notification's "Stop Sharing" button.
             if (intent?.action == "STOP_SERVICE") {
+                stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
                 return START_NOT_STICKY
             }
+
+            // We must call startForeground within 5 seconds of service start.
+            // Uses a lightweight placeholder notification which is replaced further down.
+            startForeground(NOTIFICATION_ID, createPlaceholderNotification())
 
             // All other intents should be requests to share more items.
             val uri = intent?.getParcelableExtra<Uri>(EXTRA_URI, Uri::class.java)
@@ -231,7 +236,7 @@ class ServerService : BaseService() {
                 }
             }
 
-            // We must call startForeground within 5 seconds of service start.
+            // Replaces placeholder notification.
             startForeground(NOTIFICATION_ID, createNotification())
 
         } catch (e: Exception) {
@@ -277,6 +282,21 @@ class ServerService : BaseService() {
             timestamp = System.currentTimeMillis()
         )
         sharingList.add(sharedItem)
+    }
+
+    /**
+     * Lightweight placeholder notification to ensure startForeground() is called within time limit.
+     *
+     * This reduces the chance of ForegroundServiceDidNotStartInTimeException to be thrown.
+     */
+    private fun createPlaceholderNotification(): Notification {
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(getString(R.string.notifications_server_title))
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setOngoing(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+            .build()
     }
 
     /**
