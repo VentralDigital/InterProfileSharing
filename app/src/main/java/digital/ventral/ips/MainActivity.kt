@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import digital.ventral.ips.ui.theme.InterProfileSharingTheme
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
@@ -34,6 +33,7 @@ class MainActivity : ComponentActivity() {
      *
      * - Called when picking files via "Share Files" button in the App
      * - Called when files are forwarded from another App (eg. Share image via Gallery)
+     * - Called when contacts are forwarded from another App (as .vcf file)
      */
     private fun handleShareFiles(uris: List<Uri>) {
         uris.forEach { uri ->
@@ -359,12 +359,6 @@ fun ShareButtons(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, o
     LargeButton(
         title = stringResource(R.string.main_button_share_text_title),
         description = stringResource(R.string.main_button_share_text_description),
-        onClick = onShareClipboardClick,
-        modifier = modifier
-    )
-    LargeButton(
-        title = "Share Contact",
-        description = "Select a Contact to share with other profiles that have this App installed.",
         onClick = onShareClipboardClick,
         modifier = modifier
     )
