@@ -608,7 +608,7 @@ class ClientService : BaseService() {
             if (!share) {
                 val openFileIntent = Intent().apply {
                     action = Intent.ACTION_VIEW
-                    setDataAndType(contentUri, mimeType ?: getMimeType(name))
+                    setDataAndType(contentUri, mimeType ?: FileUtils.getMimeType(name))
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
                 val pendingIntent = PendingIntent.getActivity(
@@ -633,7 +633,7 @@ class ClientService : BaseService() {
             else {
                 val shareIntent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    type = mimeType ?: getMimeType(name)
+                    type = mimeType ?: FileUtils.getMimeType(name)
                     putExtra(Intent.EXTRA_STREAM, contentUri)
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
@@ -776,7 +776,7 @@ class ClientService : BaseService() {
         try {
             val contentValues = ContentValues().apply {
                 put(MediaStore.Downloads.DISPLAY_NAME, name)
-                put(MediaStore.Downloads.MIME_TYPE, mimeType ?: getMimeType(name))
+                put(MediaStore.Downloads.MIME_TYPE, mimeType ?: FileUtils.getMimeType(name))
                 put(MediaStore.Downloads.IS_PENDING, 1)
             }
 

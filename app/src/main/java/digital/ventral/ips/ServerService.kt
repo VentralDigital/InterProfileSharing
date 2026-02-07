@@ -257,9 +257,9 @@ class ServerService : BaseService() {
             val sharedItem = SharedItem(
                 type = SharedItem.TYPE_FILE,
                 uri = uri.toString(),
-                name = getFileName(uri),
-                size = getFileSize(uri),
-                mimeType = getMimeType(uri),
+                name = FileUtils.getFileName(this, uri),
+                size = FileUtils.getFileSize(this, uri),
+                mimeType = FileUtils.getMimeType(this, uri),
                 timestamp = System.currentTimeMillis()
             )
             sharingList.add(sharedItem)
