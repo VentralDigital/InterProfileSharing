@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
+import java.io.File
+import androidx.core.content.FileProvider
 
 object FileUtils {
     internal fun getFileName(context: Context, uri: Uri): String? {
@@ -45,6 +47,25 @@ object FileUtils {
         return MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(fileName.substringAfterLast('.', ""))
             ?: "application/octet-stream"
+    }
+
+    internal fun cacheFile(context: Context, uri: Uri): Uri {
+        val outFile = File(context.cacheDir, getFileName(context, uri) ?: "${System.currentTimeMillis()}.bin")
+
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            outFile.outputStream().use { output -> input.copyTo(output) }
+        } ?: throw IllegalStateException("Failed to cache file")
+
+        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", outFile)
+    }
+
+    internal fun clearCache(context: Context) {
+        try {
+            context.cacheDir.deleteRecursively()
+            context.cacheDir.mkdirs()
+        } catch (e: Exception) {
+            android.util.Log.w("FileUtils", "Failed to clear cache", e)
+        }
     }
 }
 

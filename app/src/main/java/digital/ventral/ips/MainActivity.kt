@@ -36,11 +36,23 @@ class MainActivity : ComponentActivity() {
      * - Called when contacts are forwarded from another App (as .vcf file)
      */
     private fun handleShareFiles(uris: List<Uri>) {
-        uris.forEach { uri ->
+        uris.forEach { ouri ->
+            var uri = ouri
             try {
+                var fileSize = FileUtils.getFileSize(this, uri)
+                android.util.Log.d("IPS-URI", "1 uri=$uri fileSize=$fileSize)")
+                // In some cases we're not provided with valid file size information (eg. Contact sharing).
+                // In that case we'll copy the file into cache first and use that URI instead.
+                if (FileUtils.getFileSize(this, uri) < 0) {
+                    uri = FileUtils.cacheFile(this, uri)
+                    var fileSize = FileUtils.getFileSize(this, uri)
+                    android.util.Log.d("IPS-URI", "2 uri=$uri fileSize=$fileSize)")
+                }
                 // In some cases the permission this activity received for handling a file for
                 // sharing needs to be explicitly granted to other components of the App.
-                grantUriPermission("digital.ventral.ips", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                else {
+                    grantUriPermission("digital.ventral.ips", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
                 val serviceIntent = Intent(this, ServerService::class.java)
                 serviceIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 serviceIntent.putExtra(ServerService.EXTRA_URI, uri)
