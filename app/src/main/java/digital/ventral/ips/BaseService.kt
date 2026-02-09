@@ -4,11 +4,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
-import android.net.Uri
 import android.os.IBinder
-import android.provider.OpenableColumns
 import android.provider.Settings
-import android.webkit.MimeTypeMap
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import java.net.InetAddress
@@ -157,42 +154,6 @@ abstract class BaseService : Service() {
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Error sending stop sharing request", e)
         }
-    }
-
-    internal fun getFileName(uri: Uri): String? {
-        var name = uri.lastPathSegment
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex != -1) {
-                    name = cursor.getString(nameIndex)
-                }
-            }
-        }
-        return name
-    }
-
-    internal fun getFileSize(uri: Uri): Long? {
-        var size: Long? = null
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (sizeIndex != -1) {
-                    size = cursor.getLong(sizeIndex)
-                }
-            }
-        }
-        return size
-    }
-
-    internal fun getMimeType(fileName: String): String {
-        return MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(fileName.substringAfterLast('.', ""))
-            ?: "application/octet-stream"
-    }
-
-    internal fun getMimeType(uri: Uri): String? {
-        return contentResolver.getType(uri)
     }
 
     internal fun hasActiveNotifications(): Boolean {

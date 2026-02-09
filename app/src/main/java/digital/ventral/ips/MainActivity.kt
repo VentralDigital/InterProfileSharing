@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import digital.ventral.ips.ui.theme.InterProfileSharingTheme
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
@@ -34,13 +33,22 @@ class MainActivity : ComponentActivity() {
      *
      * - Called when picking files via "Share Files" button in the App
      * - Called when files are forwarded from another App (eg. Share image via Gallery)
+     * - Called when contacts are forwarded from another App (as .vcf file)
      */
     private fun handleShareFiles(uris: List<Uri>) {
-        uris.forEach { uri ->
+        uris.forEach { ouri ->
+            var uri = ouri
             try {
+                // In some cases we're not provided with valid file size information (eg. Contact sharing).
+                // In that case we'll copy the file into cache first and use that URI instead.
+                if (FileUtils.getFileSize(this, uri) <= 0) {
+                    uri = FileUtils.cacheFile(this, uri)
+                }
                 // In some cases the permission this activity received for handling a file for
                 // sharing needs to be explicitly granted to other components of the App.
-                grantUriPermission("digital.ventral.ips", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                else {
+                    grantUriPermission("digital.ventral.ips", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
                 val serviceIntent = Intent(this, ServerService::class.java)
                 serviceIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 serviceIntent.putExtra(ServerService.EXTRA_URI, uri)
@@ -326,70 +334,42 @@ fun ContentColumn(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, 
 @Composable
 fun ShareButtonsLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
     BoxWithConstraints(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier = modifier.fillMaxSize()
     ) {
         if (this@BoxWithConstraints.maxHeight >= this@BoxWithConstraints.maxWidth) {
-            ShareButtonsVerticalLayout(
-                modifier = Modifier,
-                onShareFilesClick = onShareFilesClick,
-                onShareClipboardClick = onShareClipboardClick
-            )
+            Column(modifier) {
+                ShareButtons(
+                    modifier = Modifier.weight(1f),
+                    onShareFilesClick = onShareFilesClick,
+                    onShareClipboardClick = onShareClipboardClick
+                )
+            }
         } else {
-            ShareButtonsHorizontalLayout(
-                modifier = Modifier,
-                onShareFilesClick = onShareFilesClick,
-                onShareClipboardClick = onShareClipboardClick
-            )
+            Row(modifier) {
+                ShareButtons(
+                    modifier = Modifier.weight(1f),
+                    onShareFilesClick = onShareFilesClick,
+                    onShareClipboardClick = onShareClipboardClick
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ShareButtonsVerticalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
-    Column(
+fun ShareButtons(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
+    LargeButton(
+        title = stringResource(R.string.main_button_share_files_title),
+        description = stringResource(R.string.main_button_share_files_description),
+        onClick = onShareFilesClick,
         modifier = modifier
-            .fillMaxSize()
-    ) {
-        // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
-        LargeButton(
-            title = stringResource(R.string.main_button_share_files_title),
-            description = stringResource(R.string.main_button_share_files_description),
-            onClick = onShareFilesClick,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        LargeButton(
-            title = stringResource(R.string.main_button_share_text_title),
-            description = stringResource(R.string.main_button_share_text_description),
-            onClick = onShareClipboardClick,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-fun ShareButtonsHorizontalLayout(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, onShareClipboardClick: () -> Unit) {
-    Row(
+    )
+    LargeButton(
+        title = stringResource(R.string.main_button_share_text_title),
+        description = stringResource(R.string.main_button_share_text_description),
+        onClick = onShareClipboardClick,
         modifier = modifier
-            .fillMaxSize()
-    ) {
-        // Note: Weight modifiers make sure the buttons cover all of the remaining space on the screen.
-        LargeButton(
-            title = stringResource(R.string.main_button_share_files_title),
-            description = stringResource(R.string.main_button_share_files_description),
-            onClick = onShareFilesClick,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        LargeButton(
-            title = stringResource(R.string.main_button_share_text_title),
-            description = stringResource(R.string.main_button_share_text_description),
-            onClick = onShareClipboardClick,
-            modifier = Modifier.weight(1f)
-        )
-    }
+    )
 }
 
 @Composable

@@ -22,8 +22,9 @@ class ServerService : BaseService() {
         const val EXTRA_URI = "digital.ventral.ips.extra.URI"
         const val EXTRA_TEXT = "digital.ventral.ips.extra.TEXT"
 
-        // Allows others to easily check whether the ServerService is running in the current
-        // profile. (eg. if this profile is sharing something, don't show notifications for it)
+        // Allows other components of the application to check whether the
+        // ServerService is running in the current profile. (eg. if this
+        // profile is sharing something, don't show notifications for it)
         @Volatile
         var isRunning = false
             private set
@@ -40,6 +41,7 @@ class ServerService : BaseService() {
         stopServer()
         isRunning = false
         sharingList.clear()
+        FileUtils.clearCache(applicationContext)
         super.onDestroy()
         stopForeground(STOP_FOREGROUND_REMOVE)
     }
@@ -257,9 +259,9 @@ class ServerService : BaseService() {
             val sharedItem = SharedItem(
                 type = SharedItem.TYPE_FILE,
                 uri = uri.toString(),
-                name = getFileName(uri),
-                size = getFileSize(uri),
-                mimeType = getMimeType(uri),
+                name = FileUtils.getFileName(this, uri),
+                size = FileUtils.getFileSize(this, uri),
+                mimeType = FileUtils.getMimeType(this, uri),
                 timestamp = System.currentTimeMillis()
             )
             sharingList.add(sharedItem)
