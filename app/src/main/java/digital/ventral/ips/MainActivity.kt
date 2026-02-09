@@ -39,14 +39,10 @@ class MainActivity : ComponentActivity() {
         uris.forEach { ouri ->
             var uri = ouri
             try {
-                var fileSize = FileUtils.getFileSize(this, uri)
-                android.util.Log.d("IPS-URI", "1 uri=$uri fileSize=$fileSize)")
                 // In some cases we're not provided with valid file size information (eg. Contact sharing).
                 // In that case we'll copy the file into cache first and use that URI instead.
-                if (FileUtils.getFileSize(this, uri) < 0) {
+                if (FileUtils.getFileSize(this, uri) <= 0) {
                     uri = FileUtils.cacheFile(this, uri)
-                    var fileSize = FileUtils.getFileSize(this, uri)
-                    android.util.Log.d("IPS-URI", "2 uri=$uri fileSize=$fileSize)")
                 }
                 // In some cases the permission this activity received for handling a file for
                 // sharing needs to be explicitly granted to other components of the App.
