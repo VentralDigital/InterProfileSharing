@@ -260,10 +260,10 @@ class ClientService : BaseService() {
      */
     private fun groupSharesByType(shares: List<SharedItem>): Pair<List<SharedItem>, Map<String, List<SharedItem>>> {
         val unGroupableItems = shares.filter { share ->
-            share.type == SharedItem.TYPE_TEXT ||    // Text items
-                    share.size == null ||            // Unknown size
-                    share.size > 10 * 1024 * 1024 || // Items > 10MB
-                    share.mimeType == null           // Unknown type
+            share.type == SharedItem.TYPE_TEXT ||     // Text items
+                    share.size == null ||             // Unknown size
+                    share.size > 300 * 1024 * 1024 || // Items > 300MB
+                    share.mimeType == null            // Unknown type
         }
         val remainingByMimeType = shares
             .filterNot { it in unGroupableItems }

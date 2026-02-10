@@ -9,6 +9,7 @@
 * [#13](https://github.com/VentralDigital/InterProfileSharing/issues/13) UI: Display buttons in columns during landscape mode
 * [#14](https://github.com/VentralDigital/InterProfileSharing/issues/14) UI: App Settings default to System theme
 * [#18](https://github.com/VentralDigital/InterProfileSharing/issues/18) Bugfix: Delay in ServerService start causes it to crash
+* [#19](https://github.com/VentralDigital/InterProfileSharing/issues/19) UX: Group larger files together until 300 MB
 
 </details>
 
