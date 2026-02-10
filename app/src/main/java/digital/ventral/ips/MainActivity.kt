@@ -157,14 +157,8 @@ class MainActivity : ComponentActivity() {
 
             // First, try to handle content:// URIs.
             if (uri != null && "content".equals(uri.scheme, ignoreCase = true)) {
-                // Sanity Check: If we can't find out the file's size, we won't be able to share it.
-                val fileSize = contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)?.use {
-                    if (it.moveToFirst()) it.getLong(0) else -1L
-                }
-                if (fileSize != null) {
-                    fileUris += uri
-                    continue
-                }
+                fileUris += uri
+                continue
             }
 
             // Alternatively, fallback to attempt coercing clipboard item into text.
