@@ -6,23 +6,27 @@ import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import java.io.File
 import androidx.core.content.FileProvider
+import androidx.documentfile.provider.DocumentFile
 
 object FileUtils {
     internal fun getFileName(context: Context, uri: Uri): String? {
-        var name = uri.lastPathSegment
-        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+        // A) Try ContentResolver's OpenableColumns
+        context.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
             if (cursor.moveToFirst() && !cursor.isNull(0)) {
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex != -1) {
-                    name = cursor.getString(nameIndex)
-                }
+                return cursor.getString(0)
             }
         }
-        return name
+        // B) Try DocumentFile
+        DocumentFile.fromSingleUri(context, uri)?.name?.let { return it }
+        // C) Try last segment in URI
+        if (uri.lastPathSegment != null) { return uri.lastPathSegment }
+        // D) Fallback: Make it up and guess extension
+        val ext = MimeTypeMap.getSingleton().getExtensionFromMimeType(getMimeType(context, uri)).orEmpty()
+        return "share_${System.currentTimeMillis()}${if (ext.isNotBlank()) ".$ext" else ""}"
     }
 
     internal fun getFileSize(context: Context, uri: Uri): Long {
-        // A) Try OpenableColumns.SIZE
+        // A) Try ContentResolver's OpenableColumns
         context.contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)?.use { cursor ->
             if (cursor.moveToFirst() && !cursor.isNull(0)) {
                 return cursor.getLong(0)
