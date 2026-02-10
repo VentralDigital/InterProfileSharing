@@ -11,8 +11,8 @@
     <string name="main_text_3">Se as notificações de dados compartilhados em outro perfil não aparecerem imediatamente, abra este aplicativo para iniciar uma verificação.</string>
     <string name="main_button_share_files_title">Compartilhar arquivos</string>
     <string name="main_button_share_files_description">Selecione arquivos para compartilhar com outros perfis que tenham este aplicativo instalado.</string>
-    <string name="main_button_share_text_title">Compartilhar texto copiado</string>
-    <string name="main_button_share_text_description">Compartilhe o conteúdo atual da área de transferência com outros perfis que tenham este aplicativo instalado.</string>
+    <string name="main_button_share_clipboard_title">Compartilhar conteúdo copiado</string>
+    <string name="main_button_share_clipboard_description">Compartilhe o conteúdo atual da área de transferência com outros perfis que tenham este aplicativo instalado.</string>
 
     <!-- Strings on Settings Page -->
     <string name="settings_activity_title">Configurações</string>

@@ -10,8 +10,8 @@
     <string name="main_text_3">If notifications of data shared in another profile do not immediately appear, open this App to trigger a check.</string>
     <string name="main_button_share_files_title">Share Files</string>
     <string name="main_button_share_files_description">Select Files to share with other profiles that have this App installed.</string>
-    <string name="main_button_share_text_title">Share copied Text</string>
-    <string name="main_button_share_text_description">Share the current contents of your clipboard with other profiles that have this App installed.</string>
+    <string name="main_button_share_clipboard_title">Share copied Content</string>
+    <string name="main_button_share_clipboard_description">Share the current contents of your clipboard with other profiles that have this App installed.</string>
 
     <!-- Strings on Settings Page -->
     <string name="settings_activity_title">Settings</string>

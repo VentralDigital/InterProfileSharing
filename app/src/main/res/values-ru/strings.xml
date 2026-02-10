@@ -11,8 +11,8 @@
     <string name="main_text_3">Если уведомления о данных из другого профиля не появляются сразу, открой приложение для проверки.</string>
     <string name="main_button_share_files_title">Поделиться файлами</string>
     <string name="main_button_share_files_description">Выбери файлы для передачи в другие профили, где установлено это приложение.</string>
-    <string name="main_button_share_text_title">Поделиться текстом</string>
-    <string name="main_button_share_text_description">Отправь содержимое буфера обмена в другие профили, где установлено это приложение.</string>
+    <string name="main_button_share_clipboard_title">Поделиться скопированным содержимым</string>
+    <string name="main_button_share_clipboard_description">Отправь содержимое буфера обмена в другие профили, где установлено это приложение.</string>
 
     <!-- Strings on Settings Page -->
     <string name="settings_activity_title">Настройки</string>

@@ -11,8 +11,8 @@
     <string name="main_text_3">Si les notifications de données partagées dans un autre profil n\'apparaissent pas immédiatement, ouvre cette application pour déclencher une vérification.</string>
     <string name="main_button_share_files_title">Partager des fichiers</string>
     <string name="main_button_share_files_description">Sélectionne des fichiers à partager avec d\'autres profils ayant cette application installée.</string>
-    <string name="main_button_share_text_title">Partager le texte copié</string>
-    <string name="main_button_share_text_description">Partage le contenu actuel du presse-papiers avec d\'autres profils ayant cette application installée.</string>
+    <string name="main_button_share_clipboard_title">Partager le contenu copié</string>
+    <string name="main_button_share_clipboard_description">Partage le contenu actuel du presse-papiers avec d\'autres profils ayant cette application installée.</string>
 
     <!-- Strings on Settings Page -->
     <string name="settings_activity_title">Paramètres</string>

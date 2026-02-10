@@ -11,8 +11,8 @@
     <string name="main_text_3">إذا لم تظهر إشعارات البيانات المشتركة في ملف شخصي آخر على الفور، افتح هذا التطبيق لبدء التحقق.</string>
     <string name="main_button_share_files_title">مشاركة الملفات</string>
     <string name="main_button_share_files_description">اختر ملفات للمشاركة مع الملفات الشخصية الأخرى التي تم تثبيت هذا التطبيق عليها.</string>
-    <string name="main_button_share_text_title">مشاركة النص المنسوخ</string>
-    <string name="main_button_share_text_description">شارك محتوى الحافظة الحالي مع الملفات الشخصية الأخرى التي تم تثبيت هذا التطبيق عليها.</string>
+    <string name="main_button_share_clipboard_title">مشاركة المحتوى المنسوخ</string>
+    <string name="main_button_share_clipboard_description">شارك محتوى الحافظة الحالي مع الملفات الشخصية الأخرى التي تم تثبيت هذا التطبيق عليها.</string>
 
     <!-- Strings on Settings Page -->
     <string name="settings_activity_title">الإعدادات</string>

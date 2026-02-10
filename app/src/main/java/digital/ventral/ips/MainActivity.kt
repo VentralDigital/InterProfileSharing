@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -359,8 +358,8 @@ fun ShareButtons(modifier: Modifier = Modifier, onShareFilesClick: () -> Unit, o
         modifier = modifier
     )
     LargeButton(
-        title = stringResource(R.string.main_button_share_text_title),
-        description = stringResource(R.string.main_button_share_text_description),
+        title = stringResource(R.string.main_button_share_clipboard_title),
+        description = stringResource(R.string.main_button_share_clipboard_description),
         onClick = onShareClipboardClick,
         modifier = modifier
     )
