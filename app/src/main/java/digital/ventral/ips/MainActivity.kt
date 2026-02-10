@@ -109,6 +109,13 @@ class MainActivity : ComponentActivity() {
                 uris?.let { handleShareFiles(it) }
                 finish()
             }
+            // Handling launcher Shortcuts.
+            "digital.ventral.ips.action.SHARE_FILE" -> {
+                onShareFilesClick()
+            }
+            "digital.ventral.ips.action.SHARE_CLIPBOARD" -> {
+                onShareClipboardClick()
+            }
         }
     }
 
