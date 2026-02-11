@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">انقر للمشاركة</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">جاهز لمشاركة %1$s ملف</string>
     <string name="notifications_share_remote_shutdown">لا تزال المشاركة نشطة في ملف شخصي آخر</string>
+    <string name="notifications_share_interrupted">تمت مقاطعة المشاركة. يلزم السماح لهذا الملف الشخصي بالعمل في الخلفية.</string>
     <string name="notifications_server_title">المشاركة بين الملفات الشخصية</string>
     <string name="notifications_server_action_stop">إيقاف المشاركة</string>
     <string name="notifications_server_description_ready">جاهز، لكن لا توجد مشاركة حالياً</string>

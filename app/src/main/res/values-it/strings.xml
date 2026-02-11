@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">Tocca per condividere</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">Pronto per condividere %1$s file</string>
     <string name="notifications_share_remote_shutdown">Condivisione ancora attiva in un altro profilo</string>
+    <string name="notifications_share_interrupted">La condivisione è stata interrotta. È necessario consentire l’esecuzione di questo profilo in background.</string>
     <string name="notifications_server_title">Condivisione tra Profili</string>
     <string name="notifications_server_action_stop">Ferma condivisione</string>
     <string name="notifications_server_description_ready">Pronto, ma nulla in condivisione</string>

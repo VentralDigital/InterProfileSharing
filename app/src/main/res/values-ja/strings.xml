@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">タップして共有</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">%1$sファイルを共有できます</string>
     <string name="notifications_share_remote_shutdown">他のプロファイルで共有がまだ有効です</string>
+    <string name="notifications_share_interrupted">共有が中断されました。バックグラウンドでこのプロファイルの実行を許可する必要があります。</string>
     <string name="notifications_server_title">プロファイル間共有</string>
     <string name="notifications_server_action_stop">共有停止</string>
     <string name="notifications_server_description_ready">準備完了（共有なし）</string>

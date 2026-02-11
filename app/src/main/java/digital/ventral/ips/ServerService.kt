@@ -80,6 +80,7 @@ class ServerService : BaseService() {
 
                 // Start accepting connections in a coroutine.
                 serviceScope.launch {
+                    ServerMonitor.set(applicationContext)
                     while (isActive) {
                         try {
                             val client = server.accept()
@@ -95,6 +96,7 @@ class ServerService : BaseService() {
             }
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Error starting server", e)
+            ServerMonitor.clear(applicationContext)
             stopSelf()
         }
     }
@@ -179,6 +181,7 @@ class ServerService : BaseService() {
 
                     ClientRequest.ACTION_STOP_SHARING -> {
                         android.util.Log.d(TAG, "Stop sharing requested via TCP")
+                        ServerMonitor.clear(applicationContext)
                         client.close()
                         stopSelf()
                     }
@@ -214,6 +217,7 @@ class ServerService : BaseService() {
         try {
             // Handle taps on the notification's "Stop Sharing" button.
             if (intent?.action == "STOP_SERVICE") {
+                ServerMonitor.clear(applicationContext)
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
                 return START_NOT_STICKY

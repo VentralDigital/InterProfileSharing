@@ -40,6 +40,7 @@ class ClientService : BaseService() {
         private const val ACTION_REMOTE_SHUTDOWN = "digital.ventral.ips.action.REMOTE_SHUTDOWN"
         private const val ACTION_DELETE_NOTIFICATION = "digital.ventral.ips.action.ACTION_DELETE_NOTIFICATION"
         private const val REMOTE_SHUTDOWN_NOTIFICATION_ID = 1
+        private const val SHARING_INTERRUPTED_NOTIFICATION_ID = 2
         private const val EXTRA_FILE_URI = "digital.ventral.ips.extra.FILE_URI"
         private const val EXTRA_FILE_NAME = "digital.ventral.ips.extra.FILE_NAME"
         private const val EXTRA_FILE_SIZE = "digital.ventral.ips.extra.FILE_SIZE"
@@ -154,6 +155,11 @@ class ClientService : BaseService() {
             return
         }
 
+        if (ServerMonitor.wasKilled(applicationContext)) {
+            createSharingInterruptionWarningNotification()
+            ServerMonitor.clear(applicationContext)
+        }
+
         // We store the timestamp of the latest item we received so we can use it as a filter for
         // the SHARES_SINCE request, filtering out shares we've already seen.
         val lastTimestamp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
@@ -251,6 +257,24 @@ class ClientService : BaseService() {
             .build()
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.notify(REMOTE_SHUTDOWN_NOTIFICATION_ID, notification)
+    }
+
+    /**
+     * Creates a notification when sharing was unexpectedly interrupted.
+     *
+     * Warns the user to allow a profile to keep running in the background when
+     * we suspect that sharing was interrupted due to ServerService having been
+     * killed.
+     */
+    private fun createSharingInterruptionWarningNotification() {
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(getString(R.string.notifications_server_title))
+            .setContentText(getString(R.string.notifications_share_interrupted))
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setAutoCancel(true)
+            .build()
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.notify(SHARING_INTERRUPTED_NOTIFICATION_ID, notification)
     }
 
     /**

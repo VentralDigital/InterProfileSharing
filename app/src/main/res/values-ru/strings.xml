@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">Нажми для отправки</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">Готово к отправке: %1$s файлов</string>
     <string name="notifications_share_remote_shutdown">Обмен всё ещё активен в другом профиле</string>
+    <string name="notifications_share_interrupted">Обмен был прерван. Необходимо разрешить этому профилю работать в фоновом режиме.</string>
     <string name="notifications_server_title">Обмен между профилями</string>
     <string name="notifications_server_action_stop">Остановить</string>
     <string name="notifications_server_description_ready">Готово, но ничего не передаётся</string>

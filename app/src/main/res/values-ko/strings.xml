@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">터치하여 공유</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">%1$s개의 파일 공유 준비됨</string>
     <string name="notifications_share_remote_shutdown">다른 프로필에서 아직 공유가 활성화되어 있습니다</string>
+    <string name="notifications_share_interrupted">공유가 중단되었습니다. 이 프로필이 백그라운드에서 실행되도록 허용해야 합니다.</string>
     <string name="notifications_server_title">프로필 간 공유</string>
     <string name="notifications_server_action_stop">공유 중지</string>
     <string name="notifications_server_description_ready">준비되었지만 공유 중인 항목 없음</string>

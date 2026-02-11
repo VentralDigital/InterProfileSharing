@@ -71,6 +71,7 @@
     <string name="notifications_share_files_download_share_choose_description">Tippen, um zu teilen</string>
     <string name="notifications_share_files_download_share_choose_title_multiple">Bereit zum Teilen von %1$s Dateien</string>
     <string name="notifications_share_remote_shutdown">Teilen ist in einem anderen Profil noch aktiv</string>
+    <string name="notifications_share_interrupted">Teilen wurde unterbrochen. Dieses Profil muss im Hintergrund laufen dürfen.</string>
     <string name="notifications_server_title">Profil-Datenaustausch</string>
     <string name="notifications_server_action_stop">Teilen beenden</string>
     <string name="notifications_server_description_ready">Bereit, aber nichts wird geteilt</string>
