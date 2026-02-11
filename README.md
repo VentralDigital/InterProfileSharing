@@ -2,14 +2,15 @@
 
 <details><summary>v1.1 Features (Upcoming)</summary>
 
-* [#17](https://github.com/VentralDigital/InterProfileSharing/issues/17) Sharing Contacts across Android User Profiles
-* [#16](https://github.com/VentralDigital/InterProfileSharing/issues/16) Homescreen Shortcuts allow quick sharing
-* [#15](https://github.com/VentralDigital/InterProfileSharing/issues/15) Support sharing Non-Text Clipboard Items
-* [#12](https://github.com/VentralDigital/InterProfileSharing/issues/12) UX: Ability to shut down the App currently sharing remotely
-* [#13](https://github.com/VentralDigital/InterProfileSharing/issues/13) UI: Display buttons in columns during landscape mode
-* [#14](https://github.com/VentralDigital/InterProfileSharing/issues/14) UI: App Settings default to System theme
-* [#18](https://github.com/VentralDigital/InterProfileSharing/issues/18) Bugfix: Delay in ServerService start causes it to crash
+* [#17](https://github.com/VentralDigital/InterProfileSharing/issues/17) Feature: Support Sharing Contacts
+* [#15](https://github.com/VentralDigital/InterProfileSharing/issues/15) Feature: Support Non-Text Clipboard Items
+* [#16](https://github.com/VentralDigital/InterProfileSharing/issues/16) Feature: Added Homescreen Shortcuts
+* [#18](https://github.com/VentralDigital/InterProfileSharing/issues/18) Bugfix: Delay in ServerService startup could cause app crash
+* [#12](https://github.com/VentralDigital/InterProfileSharing/issues/12) UX: Ability to remotely shut down App currently sharing
 * [#19](https://github.com/VentralDigital/InterProfileSharing/issues/19) UX: Group larger files together until 300 MB
+* [#22](https://github.com/VentralDigital/InterProfileSharing/issues/22) UX: Detect if Sharing was killed in background
+* [#13](https://github.com/VentralDigital/InterProfileSharing/issues/13) UI: Improved landscape mode support
+* [#14](https://github.com/VentralDigital/InterProfileSharing/issues/14) UI: App Settings default to System theme
 
 </details>
 
