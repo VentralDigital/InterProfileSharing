@@ -11,7 +11,7 @@
     <string name="main_text_3">如果在其他配置文件中共享的数据通知没有立即显示，请打开此应用触发检查。</string>
     <string name="main_button_share_files_title">共享文件</string>
     <string name="main_button_share_files_description">选择要与其他已安装此应用的配置文件共享的文件。</string>
-    <string name="main_button_share_clipboard_title">分享已复制的内容</string>
+    <string name="main_button_share_clipboard_title">分享剪贴板</string>
     <string name="main_button_share_clipboard_description">与其他已安装此应用的配置文件共享当前剪贴板内容。</string>
 
     <!-- Strings on Settings Page -->

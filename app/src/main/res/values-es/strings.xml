@@ -11,7 +11,7 @@
     <string name="main_text_3">Si no ves inmediatamente las notificaciones de datos compartidos en otro perfil, abre esta app para activar una verificación.</string>
     <string name="main_button_share_files_title">Compartir archivos</string>
     <string name="main_button_share_files_description">Selecciona archivos para compartir con otros perfiles que tengan esta app instalada.</string>
-    <string name="main_button_share_clipboard_title">Compartir contenido copiado</string>
+    <string name="main_button_share_clipboard_title">Compartir portapapeles</string>
     <string name="main_button_share_clipboard_description">Comparte el contenido actual del portapapeles con otros perfiles que tengan esta app instalada.</string>
 
     <!-- Strings on Settings Page -->

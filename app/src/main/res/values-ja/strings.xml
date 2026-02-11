@@ -11,7 +11,7 @@
     <string name="main_text_3">他のプロファイルでの共有通知が表示されない場合は、このアプリを開いて確認を実行してください。</string>
     <string name="main_button_share_files_title">ファイル共有</string>
     <string name="main_button_share_files_description">このアプリをインストールした他のプロファイルと共有するファイルを選択</string>
-    <string name="main_button_share_clipboard_title">コピーしたコンテンツを共有</string>
+    <string name="main_button_share_clipboard_title">クリップボード共有</string>
     <string name="main_button_share_clipboard_description">クリップボードの内容を他のプロファイルと共有</string>
 
     <!-- Strings on Settings Page -->

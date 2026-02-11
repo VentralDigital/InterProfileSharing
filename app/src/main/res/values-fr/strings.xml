@@ -9,9 +9,9 @@
     <string name="main_text_1">Partage des fichiers, des liens et du texte avec d\'autres profils ayant cette application installée.</string>
     <string name="main_text_2">L\'activation du chiffrement (⚙️) est recommandée pour empêcher d\'autres applications d\'accéder aux données partagées. Cela peut ralentir le transfert et le rendre moins fiable.</string>
     <string name="main_text_3">Si les notifications de données partagées dans un autre profil n\'apparaissent pas immédiatement, ouvre cette application pour déclencher une vérification.</string>
-    <string name="main_button_share_files_title">Partager des fichiers</string>
+    <string name="main_button_share_files_title">Partager fichiers</string>
     <string name="main_button_share_files_description">Sélectionne des fichiers à partager avec d\'autres profils ayant cette application installée.</string>
-    <string name="main_button_share_clipboard_title">Partager le contenu copié</string>
+    <string name="main_button_share_clipboard_title">Partager presse-papiers</string>
     <string name="main_button_share_clipboard_description">Partage le contenu actuel du presse-papiers avec d\'autres profils ayant cette application installée.</string>
 
     <!-- Strings on Settings Page -->

@@ -11,7 +11,7 @@
     <string name="main_text_3">Se le notifiche dei dati condivisi in un altro profilo non appaiono subito, apri questa app per avviare una verifica.</string>
     <string name="main_button_share_files_title">Condividi file</string>
     <string name="main_button_share_files_description">Seleziona i file da condividere con altri profili che hanno questa app installata.</string>
-    <string name="main_button_share_clipboard_title">Condividi contenuto copiato</string>
+    <string name="main_button_share_clipboard_title">Condividi appunti</string>
     <string name="main_button_share_clipboard_description">Condividi il contenuto attuale degli appunti con altri profili che hanno questa app installata.</string>
 
     <!-- Strings on Settings Page -->

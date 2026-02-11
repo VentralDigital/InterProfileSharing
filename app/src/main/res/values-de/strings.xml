@@ -11,7 +11,7 @@
     <string name="main_text_3">Falls Benachrichtigungen über in einem anderen Profil geteilte Daten nicht sofort erscheinen, öffnen Sie diese App, um eine Überprüfung auszulösen.</string>
     <string name="main_button_share_files_title">Dateien teilen</string>
     <string name="main_button_share_files_description">Wählen Sie Dateien aus, die Sie mit anderen Profilen teilen möchten, in denen diese App installiert ist.</string>
-    <string name="main_button_share_clipboard_title">Kopierten Inhalt teilen</string>
+    <string name="main_button_share_clipboard_title">Zwischenablage teilen</string>
     <string name="main_button_share_clipboard_description">Teilen Sie den aktuellen Inhalt Ihrer Zwischenablage mit anderen Profilen, in denen diese App installiert ist.</string>
 
     <!-- Strings on Settings Page -->
