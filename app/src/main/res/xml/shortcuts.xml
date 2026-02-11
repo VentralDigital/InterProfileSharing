@@ -4,7 +4,7 @@
     <shortcut
         android:shortcutId="share_file"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_shortcut_share_file"
         android:shortcutShortLabel="@string/main_button_share_files_title">
         <intent
             android:action="digital.ventral.ips.action.SHARE_FILE"
@@ -15,7 +15,7 @@
     <shortcut
         android:shortcutId="share_clipboard"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_shortcut_share_clipboard"
         android:shortcutShortLabel="@string/main_button_share_clipboard_title">
         <intent
             android:action="digital.ventral.ips.action.SHARE_CLIPBOARD"
