@@ -7,6 +7,7 @@
 * [#16](https://github.com/VentralDigital/InterProfileSharing/issues/16) Feature: Added Homescreen Shortcuts
 * [#18](https://github.com/VentralDigital/InterProfileSharing/issues/18) Bugfix: Delay in ServerService startup could cause app crash
 * [#23](https://github.com/VentralDigital/InterProfileSharing/issues/23) Bugfix: Updating port didn't reset last timestamp
+* [#25](https://github.com/VentralDigital/InterProfileSharing/issues/25) Bugfix: Ports below 1024 cause crash
 * [#12](https://github.com/VentralDigital/InterProfileSharing/issues/12) UX: Ability to remotely shut down App currently sharing
 * [#19](https://github.com/VentralDigital/InterProfileSharing/issues/19) UX: Group larger files together until 300 MB
 * [#22](https://github.com/VentralDigital/InterProfileSharing/issues/22) UX: Detect if Sharing was killed in background

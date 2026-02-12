@@ -86,7 +86,7 @@ class SettingsActivity : AppCompatActivity() {
                 val portString = newValue as String
                 try {
                     val port = portString.toInt()
-                    if (port in 0..65535) {
+                    if (port in 1024..65535) {
                         // We want to reset both Client and Server services to
                         // make sure the new port is used immediately.
                         val ctx = requireContext()
