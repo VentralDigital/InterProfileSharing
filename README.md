@@ -1,6 +1,6 @@
 <img src="./metadata/en-US/images/featureGraphic.jpg">
 
-<details><summary>v1.1 Features (Upcoming)</summary>
+<details><summary>v1.1 Features (Latest)</summary>
 
 * [#17](https://github.com/VentralDigital/InterProfileSharing/issues/17) Feature: Support Sharing Contacts
 * [#15](https://github.com/VentralDigital/InterProfileSharing/issues/15) Feature: Support Non-Text Clipboard Items
@@ -19,7 +19,7 @@
 
 </details>
 
-<details><summary>v1.0 Features (Latest)</summary>
+<details><summary>v1.0 Features</summary>
 
 * Share Links, Files, and Text across Android User Profiles
 * Share Files or Links from other Applications to this App to share them with other User Profiles
