@@ -10,6 +10,7 @@
 * [#12](https://github.com/VentralDigital/InterProfileSharing/issues/12) UX: Ability to remotely shut down App currently sharing
 * [#19](https://github.com/VentralDigital/InterProfileSharing/issues/19) UX: Group larger files together until 300 MB
 * [#22](https://github.com/VentralDigital/InterProfileSharing/issues/22) UX: Detect if Sharing was killed in background
+* [#24](https://github.com/VentralDigital/InterProfileSharing/issues/24) UX: Clear notifications on server start
 * [#13](https://github.com/VentralDigital/InterProfileSharing/issues/13) UI: Improved landscape mode support
 * [#14](https://github.com/VentralDigital/InterProfileSharing/issues/14) UI: App Settings default to System theme
 
