@@ -170,6 +170,8 @@ class ClientService : BaseService() {
             return
         }
 
+        // If it appears that the ServerService has been killed recently, take this opportunity
+        // to warn the user that profiles must be allowed to keep running in the background.
         if (ServerMonitor.wasKilled(applicationContext)) {
             createSharingInterruptionWarningNotification()
             ServerMonitor.clear(applicationContext)
