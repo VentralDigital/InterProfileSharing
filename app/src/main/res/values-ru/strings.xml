@@ -37,7 +37,7 @@
     <string name="message_password_invalid">Пароль должен быть не менее 8 символов.</string>
     <string name="message_key_generation_failed">Не удалось создать ключ AES из общего пароля</string>
     <string name="message_set_password_first">Для шифрования нужен общий пароль</string>
-    <string name="message_port_invalid">Порт должен быть числом от 0 до 65535.</string>
+    <string name="message_port_invalid">Порт должен быть числом от 1024 до 65535.</string>
     <string name="message_share_text_copy_success">Текст скопирован в буфер обмена</string>
 
     <!-- Strings in and around Notifications -->

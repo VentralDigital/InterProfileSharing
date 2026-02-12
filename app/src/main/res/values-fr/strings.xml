@@ -37,7 +37,7 @@
     <string name="message_password_invalid">Le mot de passe doit contenir au moins 8 caractères.</string>
     <string name="message_key_generation_failed">Échec de la génération de la clé AES à partir du mot de passe partagé</string>
     <string name="message_set_password_first">Le chiffrement nécessite un mot de passe partagé</string>
-    <string name="message_port_invalid">Le port doit être un nombre entre 0 et 65535.</string>
+    <string name="message_port_invalid">Le port doit être un nombre entre 1024 et 65535.</string>
     <string name="message_share_text_copy_success">Texte copié dans le presse-papiers</string>
 
     <!-- Strings in and around Notifications -->

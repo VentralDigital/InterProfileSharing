@@ -37,7 +37,7 @@
     <string name="message_password_invalid">密码至少需要 8 个字符。</string>
     <string name="message_key_generation_failed">从共享密码生成 AES 密钥失败</string>
     <string name="message_set_password_first">加密需要共享密码</string>
-    <string name="message_port_invalid">端口必须是 0 到 65535 之间的数字。</string>
+    <string name="message_port_invalid">端口必须是 1024 到 65535 之间的数字。</string>
     <string name="message_share_text_copy_success">文本已复制到剪贴板</string>
 
     <!-- Strings in and around Notifications -->

@@ -37,7 +37,7 @@
     <string name="message_password_invalid">비밀번호는 최소 8자 이상이어야 합니다.</string>
     <string name="message_key_generation_failed">공유 비밀번호에서 AES 키 생성 실패</string>
     <string name="message_set_password_first">암호화를 위해 공유 비밀번호가 필요합니다</string>
-    <string name="message_port_invalid">포트는 0에서 65535 사이의 숫자여야 합니다.</string>
+    <string name="message_port_invalid">포트는 1024에서 65535 사이의 숫자여야 합니다.</string>
     <string name="message_share_text_copy_success">텍스트가 클립보드에 복사되었습니다</string>
 
     <!-- Strings in and around Notifications -->

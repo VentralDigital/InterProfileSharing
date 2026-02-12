@@ -37,7 +37,7 @@
     <string name="message_password_invalid">يجب أن تحتوي كلمة المرور على ٨ أحرف على الأقل.</string>
     <string name="message_key_generation_failed">فشل إنشاء مفتاح AES من كلمة المرور المشتركة</string>
     <string name="message_set_password_first">يتطلب التشفير كلمة مرور مشتركة</string>
-    <string name="message_port_invalid">يجب أن يكون المنفذ رقماً بين ٠ و٦٥٥٣٥.</string>
+    <string name="message_port_invalid">يجب أن يكون المنفذ رقمًا بين ١٠٢٤ و٦٥٥٣٥.</string>
     <string name="message_share_text_copy_success">تم نسخ النص إلى الحافظة</string>
 
     <!-- Strings in and around Notifications -->

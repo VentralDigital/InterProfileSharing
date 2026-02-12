@@ -36,7 +36,7 @@
     <string name="message_password_invalid">Password must be at least 8 characters long.</string>
     <string name="message_key_generation_failed">Failed to generate encryption key from Shared Password</string>
     <string name="message_set_password_first">Encryption requires a Shared Password</string>
-    <string name="message_port_invalid">Port must be a number between 0 and 65535.</string>
+    <string name="message_port_invalid">Port must be a number between 1024 and 65535.</string>
     <string name="message_share_text_copy_success">Text copied to clipboard</string>
 
     <!-- Strings in and around Notifications -->

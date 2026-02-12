@@ -37,7 +37,7 @@
     <string name="message_password_invalid">La password deve essere di almeno 8 caratteri.</string>
     <string name="message_key_generation_failed">Errore nella generazione della chiave AES dalla password condivisa</string>
     <string name="message_set_password_first">La crittografia richiede una password condivisa</string>
-    <string name="message_port_invalid">La porta deve essere un numero tra 0 e 65535.</string>
+    <string name="message_port_invalid">La porta deve essere un numero tra 1024 e 65535.</string>
     <string name="message_share_text_copy_success">Testo copiato negli appunti</string>
 
     <!-- Strings in and around Notifications -->
