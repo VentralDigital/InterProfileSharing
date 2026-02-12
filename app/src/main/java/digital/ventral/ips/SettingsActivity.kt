@@ -2,6 +2,7 @@ package digital.ventral.ips
 
 import android.os.Bundle
 import android.widget.Toast
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
@@ -86,7 +87,11 @@ class SettingsActivity : AppCompatActivity() {
                 try {
                     val port = portString.toInt()
                     if (port in 0..65535) {
-                        ClientService.resetSharedItemPolling(requireContext())
+                        // We want to reset both Client and Server services to
+                        // make sure the new port is used immediately.
+                        val ctx = requireContext()
+                        ClientService.resetSharedItemPolling(ctx)
+                        ctx.startService(Intent(ctx, ServerService::class.java).apply { action = "STOP_SERVICE" })
                         true
                     } else {
                         showToast(getString(R.string.message_port_invalid))
