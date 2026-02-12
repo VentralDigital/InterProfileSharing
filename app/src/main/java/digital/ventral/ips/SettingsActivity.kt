@@ -86,6 +86,7 @@ class SettingsActivity : AppCompatActivity() {
                 try {
                     val port = portString.toInt()
                     if (port in 0..65535) {
+                        ClientService.clearLastTimestamp(requireContext())
                         true
                     } else {
                         showToast(getString(R.string.message_port_invalid))

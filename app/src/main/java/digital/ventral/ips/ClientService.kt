@@ -50,6 +50,21 @@ class ClientService : BaseService() {
         private const val EXTRA_FILE_SIZES = "digital.ventral.ips.extra.FILE_SIZES"
         private const val EXTRA_FILE_MIMES = "digital.ventral.ips.extra.FILE_MIMES"
         private const val EXTRA_TEXT = "digital.ventral.ips.extra.TEXT"
+
+        /**
+         * Reset last shared item polling timestamp.
+         *
+         * Should be called whenever something changes that may mean new shared
+         * items might be available with an older timestamp. Eg. When the app
+         * running on multiple ports and you want to switch between them while
+         * items are being shared.
+         */
+        fun clearLastTimestamp(ctx: Context) {
+            PreferenceManager.getDefaultSharedPreferences(ctx)
+                .edit()
+                .putLong(LAST_TIMESTAMP_KEY, 0)
+                .apply()
+        }
     }
 
     override fun onCreate() {
