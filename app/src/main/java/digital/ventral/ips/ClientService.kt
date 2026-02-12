@@ -855,7 +855,9 @@ class ClientService : BaseService() {
                     var bytesRead = 0L
                     val buffer = ByteArray(8192)
                     while (bytesRead < size) {
-                        val read = inputStream.read(buffer, 0, minOf(buffer.size, (size - bytesRead).toInt()))
+                        val remaining = size - bytesRead
+                        if (remaining <= 0L) break
+                        val read = inputStream.read(buffer, 0, minOf(buffer.size.toLong(), remaining).toInt())
                         if (read <= 0) break
                         destinationStream.write(buffer, 0, read)
                         bytesRead += read

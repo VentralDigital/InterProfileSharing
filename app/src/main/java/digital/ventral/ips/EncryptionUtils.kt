@@ -168,7 +168,7 @@ object EncryptionUtils {
                         expectedBodySize = ByteBuffer.wrap(headerBuffer.copyOfRange(0, HEADER_SIZE_LENGTH)).order(ByteOrder.BIG_ENDIAN).int
                         // If App we're talking to is not configured for encryption, we'll end up
                         // interpreting JSON encoded rubbish as a valid header here. Abort early.
-                        if (expectedBodySize > BODY_SIZE_LIMIT) return -1
+                        if (expectedBodySize <= 0 || expectedBodySize > BODY_SIZE_LIMIT) return -1
                         bodyBuffer = ByteArray(expectedBodySize)
                         iv = headerBuffer.copyOfRange(HEADER_SIZE_LENGTH, HEADER_SIZE_LENGTH + HEADER_IV_LENGTH)
                     }
@@ -180,12 +180,17 @@ object EncryptionUtils {
                     bodyBytesRead += count
                     // Body now complete? Decrypt.
                     if (bodyBytesRead == expectedBodySize) {
-                        cleartext = aead.decrypt(bodyBuffer, iv)
+                        try {
+                            cleartext = aead.decrypt(bodyBuffer, iv)
+                        } catch (e: Exception) {
+                            return -1
+                        }
                     }
                 }
                 // We have the cleartext, but it hasn't been fully read by the caller yet.
                 if (cleartext != null) {
-                    val count = minOf(len, cleartext!!.size)
+                    val remaining = cleartext!!.size - cleartextRead
+                    val count = minOf(len, remaining)
                     System.arraycopy(cleartext!!, cleartextRead, data, off, count)
                     cleartextRead += count
                     // Cleartext now completely read? Reset.
