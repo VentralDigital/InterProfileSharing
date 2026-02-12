@@ -161,5 +161,9 @@ abstract class BaseService : Service() {
         return nm.activeNotifications.isNotEmpty()
     }
 
+    internal fun clearActiveNotifications() {
+        getSystemService(NotificationManager::class.java).cancelAll()
+    }
+
     override fun onBind(intent: Intent): IBinder? = null
 }

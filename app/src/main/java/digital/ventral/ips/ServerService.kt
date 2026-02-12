@@ -31,6 +31,7 @@ class ServerService : BaseService() {
     }
 
     override fun onCreate() {
+        clearActiveNotifications()
         super.onCreate(LOGGING_TAG)
         isRunning = true
         ensurePortAvailable()
