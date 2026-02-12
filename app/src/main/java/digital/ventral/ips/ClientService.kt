@@ -814,6 +814,9 @@ class ClientService : BaseService() {
         size: Long,
         mimeType: String?
     ): Uri? = withContext(Dispatchers.IO) {
+        var success = false
+        var destinationUri: Uri? = null
+
         try {
             val contentValues = ContentValues().apply {
                 put(MediaStore.Downloads.DISPLAY_NAME, name)
@@ -821,12 +824,11 @@ class ClientService : BaseService() {
                 put(MediaStore.Downloads.IS_PENDING, 1)
             }
 
-            val destinationUri = contentResolver.insert(
+            destinationUri = contentResolver.insert(
                 MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                 contentValues
             ) ?: return@withContext null
 
-            var success = false
             Socket().use { socket ->
                 val loopbackAddress = InetAddress.getLoopbackAddress()
                 socket.connect(InetSocketAddress(loopbackAddress, getPort()))
@@ -879,6 +881,12 @@ class ClientService : BaseService() {
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Error saving file to Downloads", e)
             null
+        } finally {
+            if (!success) {
+                destinationUri?.let {
+                    runCatching { contentResolver.delete(it, null, null) }
+                }
+            }
         }
     }
 }
