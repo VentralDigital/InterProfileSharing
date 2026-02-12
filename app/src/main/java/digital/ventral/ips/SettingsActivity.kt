@@ -91,7 +91,11 @@ class SettingsActivity : AppCompatActivity() {
                         // make sure the new port is used immediately.
                         val ctx = requireContext()
                         ClientService.resetSharedItemPolling(ctx)
-                        ctx.startService(Intent(ctx, ServerService::class.java).apply { action = "STOP_SERVICE" })
+                        if (ServerService.isRunning) {
+                            ctx.startService(Intent(ctx, ServerService::class.java).apply {
+                                action = "STOP_SERVICE"
+                            })
+                        }
                         true
                     } else {
                         showToast(getString(R.string.message_port_invalid))
