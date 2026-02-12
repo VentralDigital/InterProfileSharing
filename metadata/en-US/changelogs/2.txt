@@ -1,0 +1,14 @@
+#17 Feature: Support Sharing Contacts
+#15 Feature: Support Non-Text Clipboard Items
+#16 Feature: Added Homescreen Shortcuts
+#18 Bugfix: Delay in ServerService startup could cause app crash
+#23 Bugfix: Updating port didn't reset last timestamp
+#25 Bugfix: Ports below 1024 caused crashes
+#11 Bugfix: Encryption/download streaming large files caused crashes
+#27 Bugfix: Cleanup pending files on download failure
+#12 UX: Ability to remotely shut down App currently sharing
+#19 UX: Group larger files together until 300 MB
+#22 UX: Detect if Sharing was killed in background
+#24 UX: Clear notifications on server start
+#13 UI: Improved landscape mode support
+#14 UI: App Settings default to System theme
