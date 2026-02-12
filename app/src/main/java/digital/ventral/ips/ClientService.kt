@@ -1,7 +1,6 @@
 package digital.ventral.ips
 
 import android.app.DownloadManager
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -15,6 +14,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.google.gson.reflect.TypeToken
 import java.net.Socket
@@ -22,7 +22,6 @@ import java.net.InetSocketAddress
 import java.net.InetAddress
 import kotlin.hashCode
 import kotlinx.coroutines.*
-import java.io.BufferedInputStream
 
 class ClientService : BaseService() {
 
@@ -52,14 +51,15 @@ class ClientService : BaseService() {
         private const val EXTRA_TEXT = "digital.ventral.ips.extra.TEXT"
 
         /**
-         * Reset last shared item polling timestamp.
+         * Clears shared item notifications and resets last polling timestamp.
          *
          * Should be called whenever something changes that may mean new shared
          * items might be available with an older timestamp. Eg. When the app
          * running on multiple ports and you want to switch between them while
          * items are being shared.
          */
-        fun clearLastTimestamp(ctx: Context) {
+        fun resetSharedItemPolling(ctx: Context) {
+            NotificationManagerCompat.from(ctx).cancelAll()
             PreferenceManager.getDefaultSharedPreferences(ctx)
                 .edit()
                 .putLong(LAST_TIMESTAMP_KEY, 0)
