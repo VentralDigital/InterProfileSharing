@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import digital.ventral.ips.ui.theme.InterProfileSharingTheme
+import android.os.Handler
+import android.os.Looper
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -113,8 +115,14 @@ class MainActivity : ComponentActivity() {
             "digital.ventral.ips.action.SHARE_FILE" -> {
                 onShareFilesClick()
             }
+            // For security reasons Android does not allow accessing the
+            // clipboard while the app is unfocused. The delay ensures that
+            // the app has come into full focus before the clipboard is
+            // accessed for sharing. Not pretty, but a simple solution.
             "digital.ventral.ips.action.SHARE_CLIPBOARD" -> {
-                onShareClipboardClick()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    onShareClipboardClick()
+                }, 500)
             }
         }
     }
