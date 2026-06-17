@@ -51,6 +51,19 @@ class ServerService : BaseService() {
     }
 
     /**
+     * Apps targeting Android 15 (API 35) may only run a dataSync foreground service for 6 hours
+     * within a 24 hour window. When that limit is reached the system invokes this callback and
+     * expects us to stop promptly, otherwise it raises an ANR. We simply shut sharing down; the
+     * user can start a new share at any time.
+     */
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        android.util.Log.d(TAG, "Foreground service timeout reached, stopping sharing")
+        ServerMonitor.clear(applicationContext)
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+    }
+
+    /**
      * If the configured port isn't available, it's most likely used by another ServerService
      * instance running within another User Profile. Tell it to stop sharing to free the port.
      */

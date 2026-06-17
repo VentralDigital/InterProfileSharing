@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "digital.ventral.ips"
-    compileSdk = 34
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "digital.ventral.ips"
         minSdk = 34
-        targetSdk = 34
+        targetSdk = 37
         versionCode = 2
         versionName = "1.1"
 

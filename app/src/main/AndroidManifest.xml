@@ -5,6 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--
+      Android 17 (API 37) blocks cross-profile loopback traffic by default. Since this App's
+      entire inter-profile communication relies on connecting to other User Profiles over the
+      loopback interface (127.0.0.1), we declare this permission to opt back in. It has the
+      "normal" protection level and is therefore granted automatically at install time.
+    -->
+    <uses-permission android:name="android.permission.USE_LOOPBACK_INTERFACE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
