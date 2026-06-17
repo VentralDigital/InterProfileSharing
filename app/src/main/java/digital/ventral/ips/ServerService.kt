@@ -34,8 +34,10 @@ class ServerService : BaseService() {
         clearActiveNotifications()
         super.onCreate(LOGGING_TAG)
         isRunning = true
-        ensurePortAvailable()
-        startServer()
+        serviceScope.launch {
+            ensurePortAvailable()
+            startServer()
+        }
     }
 
     override fun onDestroy() {
@@ -51,14 +53,10 @@ class ServerService : BaseService() {
      * If the configured port isn't available, it's most likely used by another ServerService
      * instance running within another User Profile. Tell it to stop sharing to free the port.
      */
-    private fun ensurePortAvailable() {
-        runBlocking(Dispatchers.IO) {
-            if (!isPortAvailable()) {
-                runBlocking {
-                    sendStopSharing()
-                    delay(500) // Give it some time to shut down.
-                }
-            }
+    private suspend fun ensurePortAvailable() {
+        if (!isPortAvailable()) {
+            sendStopSharing()
+            delay(500) // Give it some time to shut down.
         }
     }
 

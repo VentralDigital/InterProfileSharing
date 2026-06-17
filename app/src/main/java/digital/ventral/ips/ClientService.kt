@@ -573,14 +573,12 @@ class ClientService : BaseService() {
             }
             // User tapped on "Stop Sharing" button to shutdown a Server running in another Profile.
             ACTION_REMOTE_SHUTDOWN -> {
-                runBlocking(Dispatchers.IO) {
+                serviceScope.launch {
                     if (!isPortAvailable()) {
-                        runBlocking {
-                            sendStopSharing()
-                            // Remove the notification.
-                            val notificationManager = getSystemService(NotificationManager::class.java)
-                            notificationManager.cancel(REMOTE_SHUTDOWN_NOTIFICATION_ID)
-                        }
+                        sendStopSharing()
+                        // Remove the notification.
+                        val notificationManager = getSystemService(NotificationManager::class.java)
+                        notificationManager.cancel(REMOTE_SHUTDOWN_NOTIFICATION_ID)
                     }
                 }
             }
