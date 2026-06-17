@@ -39,6 +39,7 @@
     <string name="message_set_password_first">加密需要共享密码</string>
     <string name="message_port_invalid">端口必须是 1024 到 65535 之间的数字。</string>
     <string name="message_share_text_copy_success">文本已复制到剪贴板</string>
+    <string name="message_server_start_failed">无法打开端口。是否缺少网络权限？</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">共享通知</string>

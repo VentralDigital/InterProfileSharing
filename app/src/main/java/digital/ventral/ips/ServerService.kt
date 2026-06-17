@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import java.net.InetAddress
 import java.net.ServerSocket
@@ -96,6 +97,7 @@ class ServerService : BaseService() {
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Error starting server", e)
             ServerMonitor.clear(applicationContext)
+            showStartFailureToast()
             stopSelf()
         }
     }
@@ -331,6 +333,23 @@ class ServerService : BaseService() {
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.notifications_server_action_stop), stopPendingIntent)
             .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .build()
+    }
+
+    /**
+     * Lets the user know that sharing couldn't start.
+     *
+     * This is especially important when socket creation is denied (eg. missing Network permission
+     * on GrapheneOS) before the foreground sharing notification ever becomes visible, leaving the
+     * user with no other feedback. We post on the main thread since startServer() runs on IO.
+     */
+    private fun showStartFailureToast() {
+        serviceScope.launch(Dispatchers.Main) {
+            Toast.makeText(
+                applicationContext,
+                getString(R.string.message_server_start_failed),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     /**
