@@ -39,6 +39,7 @@
     <string name="message_set_password_first">يتطلب التشفير كلمة مرور مشتركة</string>
     <string name="message_port_invalid">يجب أن يكون المنفذ رقمًا بين ١٠٢٤ و٦٥٥٣٥.</string>
     <string name="message_share_text_copy_success">تم نسخ النص إلى الحافظة</string>
+    <string name="message_server_start_failed">فشل فتح المنفذ. هل إذن الشبكة مفقود؟</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">إشعارات المشاركة</string>

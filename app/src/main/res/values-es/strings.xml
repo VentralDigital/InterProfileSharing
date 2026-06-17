@@ -39,6 +39,7 @@
     <string name="message_set_password_first">El cifrado requiere una contraseña compartida</string>
     <string name="message_port_invalid">El puerto debe ser un número entre 1024 y 65535.</string>
     <string name="message_share_text_copy_success">Texto copiado al portapapeles</string>
+    <string name="message_server_start_failed">Error al abrir el puerto. ¿Falta el permiso de red?</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">Notificaciones de compartir</string>

@@ -39,6 +39,7 @@
     <string name="message_set_password_first">Для шифрования нужен общий пароль</string>
     <string name="message_port_invalid">Порт должен быть числом от 1024 до 65535.</string>
     <string name="message_share_text_copy_success">Текст скопирован в буфер обмена</string>
+    <string name="message_server_start_failed">Не удалось открыть порт. Отсутствует разрешение на доступ к сети?</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">Уведомления об обмене</string>
