@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.InterProfileSharing" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.InterProfileSharing" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
 </resources>
