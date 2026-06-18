@@ -1,0 +1,5 @@
+#34 Android 17 Workaround: App checks for SDK 37+ and whether the INTERACT_ACROSS_USERS permission is missing, if so: Displays a message that the App requires a workaround to function on Android 17 located at: https://ventraldigital.github.io/InterProfileSharing/
+#35 Feature: Added privacy toggle to hide shared clipboard texts from notifications
+#33 Bugfix: Display error on missing Network permission
+#32 Bugfix: Avoid main-thread blocking risks
+#28 UI: Support Dark theme Expanded

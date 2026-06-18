@@ -1,6 +1,20 @@
+> [!IMPORTANT]  
+> The Inter Profile Sharing app offers sharing information between Android User profiles in a way that doesn't require you to use cloud synchronization, messengers or USB sticks. To do so, it uses the localhost loopback (127.0.0.1) – a loophole that was never intended to work for cross-profile communications. With Android 17 released in June 2026 this loophole is now unavailable to 3rd party apps like Inter Profile Sharing by default. If you want to keep using it anyways you can use the [Workaround Web-Tool](https://ventraldigital.github.io/InterProfileSharing/) to set the required permission via Android USB Debugging (ADB). Manual instructions can be found in the Troubleshooting section below.
+
 <img src="./metadata/en-US/images/featureGraphic.jpg">
 
-<details><summary>v1.1 Features (Latest)</summary>
+<details><summary>v1.2 Features (Latest)</summary>
+
+* [#34](https://github.com/VentralDigital/InterProfileSharing/issues/34) **Android 17 Workaround**
+  - App checks for SDK 37+ and whether the INTERACT_ACROSS_USERS permission is missing, if so: Displays a message that the App requires a workaround to function on Android 17 located at: https://ventraldigital.github.io/InterProfileSharing/
+* [#35](https://github.com/VentralDigital/InterProfileSharing/issues/35) Feature: Added privacy toggle to hide shared clipboard texts from notifications
+* [#33](https://github.com/VentralDigital/InterProfileSharing/issues/33) Bugfix: Display error on missing Network permission
+* [#32](https://github.com/VentralDigital/InterProfileSharing/issues/32) Bugfix: Avoid main-thread blocking risks
+* [#28](https://github.com/VentralDigital/InterProfileSharing/issues/28) UI: Support Dark theme Expanded
+
+</details>
+
+<details><summary>v1.1 Features</summary>
 
 * [#17](https://github.com/VentralDigital/InterProfileSharing/issues/17) Feature: Support Sharing Contacts
 * [#15](https://github.com/VentralDigital/InterProfileSharing/issues/15) Feature: Support Non-Text Clipboard Items
@@ -77,6 +91,7 @@ Install this App within each profile that you want to share data with (no way ar
 * **Notifications**: This App makes use of notifications to inform you about information being shared by another User Profile. In fact, there's no UI from which you could obtain shared information other than notifications. This is why they're required. The App will never post any spam notifications unrelated to the information you're sharing.
 * **Foreground Service**: The App will automatically obtain this permission upon installation, allowing it to serve shared information without getting killed by the system to save battery. Foreground Services are only used by this App while data is explicitly being shared. The user has full control over the running Service via a pinned notification.
 * **Clipboard Write**: The App will automatically obtain this permission upon installation, allowing it to write to the clipboard. In fact, it even reads your clipboard, but it only ever does so when you click buttons explicitly stating this as a fact. This is used to conveniently share clipboard contents between User Profiles.
+* **Interact Across Users**: With Android 17+ this permission is required for the app to communicate across User Profiles. Unlike the other permissions, it is not easily granted to 3rd party apps. Android USB Debugging (ADB) is required to obtain the permissions for the app. You can do this manually via CLI (see Troubleshooting) or using our [web tool](https://ventraldigital.github.io/InterProfileSharing/).
 
 ### Encryption
 
@@ -85,6 +100,30 @@ You can instantly start sharing files between profiles after installation, but i
 This feature is arguably paranoid. For another application to access information shared through this App, it would need to be explicitly programmed to do so. Enabling encryption will make data transfers slower, possibly less reliable, but it will certainly prevent such malicious Apps from accessing what you're sharing without your permission. Assuming you chose a nice, long password, that is.
 
 ## Troubleshooting
+
+#### App keeps telling me to visit a Website for a workaround
+
+It's not some scam or some bad attempt to get you to install malware. It's an unfortunately reality that with Android 17+ (rolled out in June 2026) the app will no longer function without manual user intervention. If you want to keep the app working you indeed have to visit the displayed URL and follow the instructions: https://ventraldigital.github.io/InterProfileSharing/
+
+Note that giving something access to your phone's USB Debugging interface is indeed a potentially dangerous action. We tried to minimize this by (1) ensuring the app is written in pure javascript with no external dependencies and (2) runs fully in your browser without any backend communication. An attacker would have to take control of this repository or GitHub itself in order to exploit this.
+
+Alternatively, you may use your local ADB CLI tool to achieve the same: First, list the users of your phone:
+
+```bash
+$ adb shell pm list users
+Users:
+        UserInfo{0:Owner:4c13} running
+        UserInfo{10:User1:410} running
+        UserInfo{11:User2:410} running
+        UserInfo{12:User3:410}
+```
+
+Then grant the permission for the app within each user that it is installed and restart the app to ensure the change is effective immediately (in the following example it is done for User1 with UID 10):
+
+```bash
+adb shell pm grant --user 10 digital.ventral.ips android.permission.INTERACT_ACROSS_USERS
+adb shell am force-stop --user 10 digital.ventral.ips
+```
 
 #### Android won't let me install the App
 
