@@ -3,112 +3,164 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WebADB — connect to Android over WebUSB</title>
+    <title>Inter Profile Sharing — Android 17+ Workaround</title>
     <meta
       name="description"
-      content="Connect to an Android device with USB debugging straight from your browser. A host-side ADB implementation over WebUSB — no native adb required."
+      content="Grant the Inter Profile Sharing app the permission it needs on Android 17 and newer, straight from your browser over USB."
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main>
       <header>
-        <h1>WebADB</h1>
-        <p class="tagline">
-          A host-side <strong>ADB</strong> implementation that runs in your
-          browser over <strong>WebUSB</strong> — no native <code>adb</code>
-          executable required.
+        <h1>Inter Profile Sharing<br /><span class="subtitle">Android 17+ Workaround</span></h1>
+        <p class="intro">
+          The Inter Profile Sharing app offers sharing information between
+          Android User profiles in a way that doesn't require you to use cloud
+          synchronization, messengers or USB sticks. To do so, it uses the
+          localhost loopback (127.0.0.1) – a loophole that was never intended to
+          work for cross-profile communications. With Android 17 released in
+          June 2026 this loophole is now unavailable to 3rd party apps like Inter
+          Profile Sharing by default. If you want to keep using it anyways you
+          can use this page to grant the necessary permission to the App.
         </p>
       </header>
 
-      <section class="card warn" id="prereq">
-        <h2>Before you start</h2>
-        <ol>
-          <li>
-            Use a <strong>Chromium-based browser</strong> (Chrome, Edge, Brave,
-            Opera) on desktop or Android. Firefox and Safari do not support
-            WebUSB.
-          </li>
-          <li>
-            On the phone: enable <strong>Developer options</strong> →
-            <strong>USB debugging</strong>, then connect it by USB.
-          </li>
-          <li>
-            <strong>Run <code>adb kill-server</code> first.</strong> The ADB USB
-            interface is exclusive: if a native ADB server, Android Studio, or
-            another browser tab already owns it, the browser cannot claim it.
-          </li>
-        </ol>
+      <!-- Step 1 -->
+      <section class="step" id="step-1">
+        <div class="step-head"><span class="step-num">1</span><h2>Before you start</h2></div>
+        <div class="step-body">
+          <ul>
+            <li>
+              First, install the Inter Profile Sharing App within all User
+              Profiles you wish to share information between. This tool grants
+              the necessary permission to the app within each User Profile where
+              it is installed. You can run it again later if you have a new User
+              Profile with the app installed.
+            </li>
+            <li>
+              Make sure you are using a <strong>Chromium-based browser</strong>
+              such as Google Chrome, Microsoft Edge, Brave, or Opera.
+              Unfortunately, Firefox and Safari do not support WebUSB.
+            </li>
+            <li>
+              If you are an Android developer and you have an adb server running
+              locally on this computer, run <code>adb kill-server</code> to
+              ensure we can access the phone via WebUSB. If you don't know what
+              adb is you can most likely just ignore this point.
+            </li>
+          </ul>
+          <div id="support-warning" class="notice error hidden">
+            <p></p>
+          </div>
+        </div>
       </section>
 
-      <section class="card">
-        <div class="controls">
-          <button id="connect" class="primary">Connect a device</button>
-          <button id="disconnect" disabled>Disconnect</button>
-          <span class="status" id="status">Not connected</span>
-        </div>
-
-        <div id="support-warning" class="card error hidden">
+      <!-- Step 2 -->
+      <section class="step" id="step-2">
+        <div class="step-head"><span class="step-num">2</span><h2>Temporarily turn on Developer Mode on your Phone</h2></div>
+        <div class="step-body">
           <p>
-            Could not claim the ADB interface. Make sure you ran
-            <code>adb kill-server</code> and closed Android Studio / other tabs
-            that may hold the device, then try again.
+            Open your phone's <strong>Settings</strong>, go to
+            <strong>About phone</strong>, scroll to the bottom and repeatedly tap
+            <strong>Build number</strong> until it says
+            <em>"You are now a developer!"</em>
           </p>
         </div>
       </section>
 
-      <section id="device-info" class="card hidden"></section>
-
-      <section id="setup" class="card hidden">
-        <h2>Configure InterProfileSharing across all users</h2>
-        <p class="muted">
-          Runs the full setup automatically: lists every user profile, finds the
-          ones with <code id="target-package">digital.ventral.ips</code>
-          installed, grants
-          <code>android.permission.INTERACT_ACROSS_USERS</code> to each, and
-          force-stops the app so it restarts fresh.
-        </p>
-        <div class="controls">
-          <button id="run-setup" class="primary">Run setup</button>
-          <span class="status" id="setup-status"></span>
-        </div>
-        <div id="setup-results"></div>
-      </section>
-
-      <section id="tests" class="card hidden">
-        <h2>Manual shell commands</h2>
-        <p class="muted">
-          Each button opens a <code>shell:</code> stream to the device and shows
-          the output below — handy for poking at the device directly.
-        </p>
-        <div class="custom-row">
-          <input
-            id="custom-cmd"
-            type="text"
-            placeholder="custom shell command, e.g. getprop ro.product.cpu.abi"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <button id="run-custom">Run</button>
+      <!-- Step 3 -->
+      <section class="step" id="step-3">
+        <div class="step-head"><span class="step-num">3</span><h2>Temporarily turn on USB Debugging on your Phone</h2></div>
+        <div class="step-body">
+          <p>
+            Go back into the <strong>Settings</strong> overview and tap into
+            <strong>System</strong> instead, scroll down to
+            <strong>Advanced</strong> here and tap
+            <strong>Developer options</strong>. Scroll to
+            <strong>Debugging</strong> and turn on <strong>USB debugging</strong>.
+          </p>
         </div>
       </section>
 
-      <section class="card">
-        <h2>Log</h2>
+      <!-- Step 4 -->
+      <section class="step" id="step-4">
+        <div class="step-head"><span class="step-num">4</span><h2>Connect the Phone</h2></div>
+        <div class="step-body">
+          <p>
+            While you're in the Profile of the Owner user, use a data-capable USB
+            cable to connect your phone to this computer. Once done, click the
+            Connect button below. The browser will then ask you to select a
+            device. If your Phone is properly connected, you should be able to
+            select it here.
+          </p>
+          <p>
+            Your phone will now ask you to authenticate the connection. For the
+            tool to work you have to accept this.
+          </p>
+          <div class="actions">
+            <button id="connect" class="primary">Connect</button>
+            <span class="status" id="step4-status"></span>
+          </div>
+          <p id="device-info" class="device-info hidden"></p>
+        </div>
+      </section>
+
+      <!-- Step 5 -->
+      <section class="step" id="step-5">
+        <div class="step-head"><span class="step-num">5</span><h2>Granting the Permission</h2></div>
+        <div class="step-body">
+          <p>
+            Now that your phone is connected and authenticated, click the button
+            below. This tool will automatically:
+          </p>
+          <ul>
+            <li>find every User Profile on your phone,</li>
+            <li>check which of them have Inter Profile Sharing installed,</li>
+            <li>grant the required permission to each of them, and</li>
+            <li>restart the app so the change takes effect right away.</li>
+          </ul>
+          <p>
+            Just watch the results appear below. You can come back and press it
+            again later whenever you add the app to a new User Profile.
+          </p>
+          <div class="actions">
+            <button id="grant" class="primary" disabled>Grant permission</button>
+            <span class="status" id="step5-status"></span>
+          </div>
+          <div id="setup-results"></div>
+        </div>
+      </section>
+
+      <!-- Step 6 -->
+      <section class="step" id="step-6">
+        <div class="step-head"><span class="step-num">6</span><h2>Clean Up</h2></div>
+        <div class="step-body">
+          <p>
+            You should now turn off the <strong>USB debugging</strong> and then
+            the <strong>Use developer options</strong> toggle under
+            <strong>Settings</strong> &rsaquo; <strong>System</strong> &rsaquo;
+            <strong>Developer options</strong>. Keeping USB debugging turned on
+            unnecessarily can be dangerous!
+          </p>
+        </div>
+      </section>
+
+      <details class="log-details">
+        <summary>Show technical log (for debugging)</summary>
         <pre id="log" class="log"></pre>
-      </section>
+      </details>
 
       <footer>
         <p>
-          This page implements the ADB transport protocol (24-byte little-endian
-          headers, multiplexed streams, RSA token authentication) directly in
-          JavaScript. Source lives in
+          This page talks to your phone directly over USB using the ADB protocol
+          implemented in your browser — nothing is sent over the internet, and no
+          <code>adb</code> program needs to be installed. Source lives in
           <code>docs/</code> of the
           <a href="https://github.com/VentralDigital/InterProfileSharing"
             >InterProfileSharing</a
           >
-          repository. Nothing leaves your machine — the USB connection is
-          entirely local.
+          repository.
         </p>
       </footer>
     </main>

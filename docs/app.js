@@ -5,25 +5,22 @@ import {
   isWebUsbSupported,
 } from "./adb.js";
 
-const els = {
-  connectBtn: document.getElementById("connect"),
-  disconnectBtn: document.getElementById("disconnect"),
-  status: document.getElementById("status"),
-  deviceInfo: document.getElementById("device-info"),
-  log: document.getElementById("log"),
-  tests: document.getElementById("tests"),
-  customCmd: document.getElementById("custom-cmd"),
-  runCustom: document.getElementById("run-custom"),
-  support: document.getElementById("support-warning"),
-  setup: document.getElementById("setup"),
-  runSetup: document.getElementById("run-setup"),
-  setupStatus: document.getElementById("setup-status"),
-  setupResults: document.getElementById("setup-results"),
-};
-
 // The InterProfileSharing app and the permission it needs across user profiles.
 const TARGET_PACKAGE = "digital.ventral.ips";
 const PERMISSION = "android.permission.INTERACT_ACROSS_USERS";
+
+const els = {
+  connectBtn: document.getElementById("connect"),
+  grantBtn: document.getElementById("grant"),
+  step4Status: document.getElementById("step4-status"),
+  step5Status: document.getElementById("step5-status"),
+  deviceInfo: document.getElementById("device-info"),
+  setupResults: document.getElementById("setup-results"),
+  support: document.getElementById("support-warning"),
+  log: document.getElementById("log"),
+  step4: document.getElementById("step-4"),
+  step5: document.getElementById("step-5"),
+};
 
 let connection = null;
 let adbKey = null;
@@ -35,60 +32,63 @@ function log(line) {
   els.log.scrollTop = els.log.scrollHeight;
 }
 
-function setStatus(text, kind) {
-  els.status.textContent = text;
-  els.status.className = "status " + (kind || "");
+function setStatus(el, text, kind) {
+  el.textContent = text;
+  el.className = "status " + (kind || "");
 }
 
-function setConnectedUI(connected) {
-  els.connectBtn.disabled = connected;
-  els.disconnectBtn.disabled = !connected;
-  els.setup.classList.toggle("hidden", !connected);
-  els.tests.classList.toggle("hidden", !connected);
-  els.deviceInfo.classList.toggle("hidden", !connected);
+function setStepDone(stepEl, done) {
+  stepEl.classList.toggle("done", done);
 }
 
-// Pre-defined proof-of-life commands.
-const TEST_COMMANDS = [
-  { label: "Model", service: "shell:getprop ro.product.model" },
-  { label: "Android version", service: "shell:getprop ro.build.version.release" },
-  { label: "Serial", service: "shell:getprop ro.serialno" },
-  { label: "Uptime", service: "shell:uptime" },
-  { label: "Whoami / id", service: "shell:id" },
-  { label: "Echo test", service: "shell:echo 'WebADB is talking to your device!'" },
-  { label: "List /sdcard", service: "shell:ls -la /sdcard" },
-];
+// --- Step 4: connect & authenticate ----------------------------------------
 
-function buildTestButtons() {
-  els.tests.querySelectorAll(".test-grid")[0]?.remove();
-  const grid = document.createElement("div");
-  grid.className = "test-grid";
-  for (const test of TEST_COMMANDS) {
-    const btn = document.createElement("button");
-    btn.textContent = test.label;
-    btn.className = "test-btn";
-    btn.addEventListener("click", () => runCommand(test.service, test.label));
-    grid.appendChild(btn);
-  }
-  els.tests.insertBefore(grid, els.tests.querySelector(".custom-row"));
-}
-
-async function runCommand(service, label) {
-  if (!connection || busy) return;
+async function connect() {
+  if (!isWebUsbSupported() || busy) return;
   busy = true;
-  log(`$ ${service}`);
+  els.connectBtn.disabled = true;
+  setStatus(els.step4Status, "Asking you to pick a device…", "pending");
   try {
-    const output = await connection.runService(service);
-    const trimmed = output.replace(/\s+$/, "");
-    log((label ? `${label}:\n` : "") + (trimmed || "(no output)"));
+    adbKey = adbKey || (await AdbCrypto.load());
+
+    const device = await navigator.usb.requestDevice({
+      filters: [ADB_INTERFACE_FILTER],
+    });
+    connection = new AdbConnection(device, log);
+    log(`Selected: ${device.productName || "Unknown device"}`);
+
+    setStatus(els.step4Status, "Connecting…", "pending");
+    await connection.open();
+
+    setStatus(els.step4Status, "Waiting for you to accept on the phone…", "pending");
+    await connection.connect(adbKey);
+
+    els.deviceInfo.textContent = "Connected to " + (device.productName || "your phone") + ".";
+    els.deviceInfo.classList.remove("hidden");
+    setStatus(els.step4Status, "Connected ✓", "ok");
+    setStepDone(els.step4, true);
+
+    els.grantBtn.disabled = false;
+    setStatus(els.step5Status, "Ready — click \"Grant permission\".", "");
+    log("Phone connected and authenticated.");
   } catch (e) {
-    log(`Error running "${service}": ${e.message}`);
+    log(`Connection failed: ${e.message}`);
+    setStatus(els.step4Status, "Connection failed", "error");
+    els.connectBtn.disabled = false;
+    if (/claim/i.test(e.message)) {
+      showSupportWarning(
+        "Could not access the phone — another program is using it. If you are a " +
+          "developer, run \"adb kill-server\" and close Android Studio or other " +
+          "browser tabs, then click Connect again.",
+      );
+    }
+    await cleanup();
   } finally {
     busy = false;
   }
 }
 
-// --- InterProfileSharing setup automation ----------------------------------
+// --- Step 5: grant the permission across all profiles ----------------------
 
 // Parse `pm list users` output into [{ id, name, running }].
 //   Users:
@@ -99,11 +99,7 @@ function parseUsers(output) {
   for (const line of output.split("\n")) {
     const m = line.match(/UserInfo\{(\d+):(.*):[0-9a-fA-F]+\}/);
     if (m) {
-      users.push({
-        id: parseInt(m[1], 10),
-        name: m[2],
-        running: /\brunning\b/.test(line),
-      });
+      users.push({ id: parseInt(m[1], 10), name: m[2], running: /\brunning\b/.test(line) });
     }
   }
   return users;
@@ -116,20 +112,20 @@ function resultFrom(output) {
   return text === "" ? { ok: true, message: "OK" } : { ok: false, message: text };
 }
 
-async function runSetup() {
+async function grant() {
   if (!connection || busy) return;
   busy = true;
-  els.runSetup.disabled = true;
+  els.grantBtn.disabled = true;
   els.setupResults.innerHTML = "";
-  setSetupStatus("Listing user profiles…", "pending");
-  log("=== Setup: configuring " + TARGET_PACKAGE + " across all users ===");
+  setStatus(els.step5Status, "Looking for user profiles…", "pending");
+  log("=== Granting " + PERMISSION + " to " + TARGET_PACKAGE + " ===");
 
   try {
     // 1. Get all user profiles.
     const usersOut = await connection.runService("shell:pm list users");
     const users = parseUsers(usersOut);
     if (users.length === 0) {
-      throw new Error("Could not parse any users from `pm list users`. Raw output:\n" + usersOut.trim());
+      throw new Error("Could not read the list of user profiles.\n" + usersOut.trim());
     }
     log(`Found ${users.length} user profile(s): ${users.map((u) => `${u.id}:${u.name}`).join(", ")}`);
 
@@ -139,14 +135,14 @@ async function runSetup() {
     for (const user of users) {
       const row = { user, installed: false, grant: null, restart: null };
 
-      // 2. Is the target package installed for this user?
+      // 2. Is the app installed for this user?
       const pkgOut = await connection.runService(
         `shell:pm list packages --user ${user.id} ${TARGET_PACKAGE}`,
       );
       row.installed = pkgOut.includes("package:" + TARGET_PACKAGE);
 
       if (row.installed) {
-        log(`User ${user.id} (${user.name}): ${TARGET_PACKAGE} is installed.`);
+        log(`User ${user.id} (${user.name}): app is installed.`);
 
         // 3. Grant the cross-user permission.
         const grantOut = await connection.runService(
@@ -164,42 +160,39 @@ async function runSetup() {
 
         configured++;
       } else {
-        log(`User ${user.id} (${user.name}): ${TARGET_PACKAGE} not installed — skipped.`);
+        log(`User ${user.id} (${user.name}): app not installed — skipped.`);
       }
 
       rows.push(row);
     }
 
-    renderSetupResults(rows);
+    renderResults(rows);
 
     const anyGrantFailed = rows.some((r) => r.grant && !r.grant.ok);
     if (configured === 0) {
-      setSetupStatus(`Done — ${TARGET_PACKAGE} is not installed for any user.`, "error");
+      setStatus(els.step5Status, "The app is not installed in any profile yet.", "error");
     } else if (anyGrantFailed) {
-      setSetupStatus(`Configured ${configured} profile(s), but some grants failed — see below.`, "error");
+      setStatus(els.step5Status, `Granted in ${configured} profile(s), but some failed — see below.`, "error");
+      setStepDone(els.step5, true);
     } else {
-      setSetupStatus(`✓ Configured ${configured} profile(s) successfully.`, "ok");
+      setStatus(els.step5Status, `✓ All set in ${configured} profile(s).`, "ok");
+      setStepDone(els.step5, true);
     }
-    log("=== Setup complete ===");
+    log("=== Done ===");
   } catch (e) {
-    log(`Setup failed: ${e.message}`);
-    setSetupStatus("Setup failed — see log.", "error");
+    log(`Failed: ${e.message}`);
+    setStatus(els.step5Status, "Something went wrong — see the log.", "error");
   } finally {
     busy = false;
-    els.runSetup.disabled = false;
+    if (connection) els.grantBtn.disabled = false;
   }
 }
 
-function setSetupStatus(text, kind) {
-  els.setupStatus.textContent = text;
-  els.setupStatus.className = "status " + (kind || "");
-}
-
-function renderSetupResults(rows) {
+function renderResults(rows) {
   const table = document.createElement("table");
   table.className = "results-table";
   table.innerHTML =
-    "<thead><tr><th>User</th><th>Name</th><th>Installed</th>" +
+    "<thead><tr><th>User</th><th>Profile</th><th>App installed</th>" +
     "<th>Permission granted</th><th>Restarted</th></tr></thead>";
   const tbody = document.createElement("tbody");
 
@@ -240,114 +233,44 @@ function skipped() {
   return span;
 }
 
-async function connect() {
-  if (!isWebUsbSupported()) return;
-  setStatus("Requesting device…", "pending");
-  try {
-    adbKey = adbKey || (await AdbCrypto.load());
+// --- shared -----------------------------------------------------------------
 
-    const device = await navigator.usb.requestDevice({
-      filters: [ADB_INTERFACE_FILTER],
-    });
-
-    connection = new AdbConnection(device, log);
-    log(`Selected: ${device.productName || "Unknown"} (${vendorProduct(device)})`);
-
-    setStatus("Claiming interface…", "pending");
-    await connection.open();
-
-    setStatus("Authenticating…", "pending");
-    const banner = await connection.connect(adbKey);
-
-    renderDeviceInfo(device, banner);
-    setStatus("Connected ✓", "ok");
-    setConnectedUI(true);
-    buildTestButtons();
-    log("Ready. Click a test command above.");
-  } catch (e) {
-    log(`Connection failed: ${e.message}`);
-    setStatus("Connection failed", "error");
-    if (/claim/i.test(e.message)) {
-      els.support.classList.remove("hidden");
-    }
-    await disconnect();
-  }
+function showSupportWarning(message) {
+  els.support.querySelector("p").textContent = message;
+  els.support.classList.remove("hidden");
 }
 
-function vendorProduct(device) {
-  const hex = (n) => "0x" + n.toString(16).padStart(4, "0");
-  return `${hex(device.vendorId)}:${hex(device.productId)}`;
-}
-
-function renderDeviceInfo(device, banner) {
-  const rows = [];
-  rows.push(["USB device", `${device.productName || "Unknown"} (${vendorProduct(device)})`]);
-  if (device.manufacturerName) rows.push(["Manufacturer", device.manufacturerName]);
-  if (device.serialNumber) rows.push(["USB serial", device.serialNumber]);
-
-  // The banner looks like "device::ro.product.name=...;ro.product.model=...;features=..."
-  const featureMatch = banner.match(/features=([^;]*)/);
-  if (featureMatch) rows.push(["ADB features", featureMatch[1]]);
-
-  els.deviceInfo.innerHTML = "<h2>Device</h2>";
-  const table = document.createElement("table");
-  for (const [k, v] of rows) {
-    const tr = document.createElement("tr");
-    const th = document.createElement("th");
-    th.textContent = k;
-    const td = document.createElement("td");
-    td.textContent = v;
-    tr.append(th, td);
-    table.appendChild(tr);
-  }
-  els.deviceInfo.appendChild(table);
-
-  const rawBanner = document.createElement("p");
-  rawBanner.id = "banner";
-  rawBanner.textContent = banner;
-  els.deviceInfo.appendChild(rawBanner);
-}
-
-async function disconnect() {
+async function cleanup() {
   if (connection) {
     await connection.close();
     connection = null;
   }
-  setConnectedUI(false);
-  els.setupResults.innerHTML = "";
-  setSetupStatus("", "");
-  if (els.status.className.indexOf("error") === -1) {
-    setStatus("Disconnected", "");
-  }
+  els.grantBtn.disabled = true;
+  setStepDone(els.step4, false);
+  setStepDone(els.step5, false);
+  els.deviceInfo.classList.add("hidden");
 }
 
 function init() {
   if (!isWebUsbSupported()) {
-    els.support.classList.remove("hidden");
-    els.support.querySelector("p").textContent =
-      "WebUSB is not available in this browser. Use a Chromium-based browser " +
-      "(Chrome, Edge, Opera, Brave) on desktop or Android — Firefox and Safari " +
-      "do not support WebUSB.";
+    showSupportWarning(
+      "WebUSB is not available in this browser. Please use a Chromium-based " +
+        "browser such as Google Chrome, Microsoft Edge, Brave, or Opera. " +
+        "Firefox and Safari do not support WebUSB.",
+    );
     els.connectBtn.disabled = true;
     return;
   }
 
   els.connectBtn.addEventListener("click", connect);
-  els.disconnectBtn.addEventListener("click", disconnect);
-  els.runSetup.addEventListener("click", runSetup);
-  els.runCustom.addEventListener("click", () => {
-    const cmd = els.customCmd.value.trim();
-    if (cmd) runCommand("shell:" + cmd, null);
-  });
-  els.customCmd.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") els.runCustom.click();
-  });
+  els.grantBtn.addEventListener("click", grant);
 
-  // Re-attach if a previously authorised device gets unplugged/replugged.
   navigator.usb.addEventListener("disconnect", (e) => {
     if (connection && e.device === connection.device) {
-      log("Device was disconnected.");
-      disconnect();
+      log("Phone was disconnected.");
+      setStatus(els.step4Status, "Phone disconnected — reconnect to continue.", "error");
+      els.connectBtn.disabled = false;
+      cleanup();
     }
   });
 }

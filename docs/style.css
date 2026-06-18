@@ -6,10 +6,9 @@
   --muted: #9aa0ab;
   --accent: #3ddc84; /* Android green */
   --accent-press: #2fae67;
-  --warn-bg: #2a2410;
-  --warn-border: #5c4d10;
   --error-bg: #2a1416;
   --error-border: #5c1a1f;
+  --error-text: #ff6b6b;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -20,10 +19,9 @@
     --card-border: #e0e2e8;
     --text: #1a1c21;
     --muted: #5d636e;
-    --warn-bg: #fff8e1;
-    --warn-border: #ecd28a;
     --error-bg: #fde9ea;
     --error-border: #f3b4b8;
+    --error-text: #c0341d;
   }
 }
 
@@ -36,56 +34,92 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 main {
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 2rem 1.25rem 4rem;
 }
 
+/* Header */
 header h1 {
-  margin: 0;
-  font-size: 2.2rem;
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
-.tagline {
-  color: var(--muted);
-  margin-top: 0.4rem;
+header h1 .subtitle {
+  color: var(--accent);
+  font-size: 1.5rem;
 }
 
-.card {
+.intro {
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+/* Step cards */
+.step {
   background: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 1.1rem 1.25rem;
+  border-radius: 14px;
+  padding: 1.1rem 1.3rem 1.3rem;
   margin-top: 1.25rem;
 }
 
-.card h2 {
-  margin-top: 0;
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.step-head h2 {
+  margin: 0;
   font-size: 1.15rem;
 }
 
-.card.warn {
-  background: var(--warn-bg);
-  border-color: var(--warn-border);
+.step-num {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  background: var(--card-border);
+  color: var(--text);
 }
 
-.card.error {
-  background: var(--error-bg);
-  border-color: var(--error-border);
+.step.done .step-num {
+  background: var(--accent);
+  color: #05210f;
+  font-size: 0; /* hide the number */
 }
 
-.muted {
-  color: var(--muted);
+.step.done .step-num::after {
+  content: "✓";
+  font-size: 1.1rem;
 }
 
-ol,
-ul {
+.step-body {
+  margin-top: 0.85rem;
+}
+
+.step-body > :first-child {
+  margin-top: 0;
+}
+
+.step-body ul,
+.step-body ol {
   padding-left: 1.2rem;
+}
+
+.step-body li {
+  margin: 0.35rem 0;
 }
 
 code {
@@ -96,11 +130,13 @@ code {
   font-size: 0.9em;
 }
 
-.controls {
+/* Actions / buttons */
+.actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 button {
@@ -109,7 +145,7 @@ button {
   border: 1px solid var(--card-border);
   background: var(--card);
   color: var(--text);
-  padding: 0.55rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 9px;
   transition: background 0.12s, opacity 0.12s;
 }
@@ -134,6 +170,7 @@ button.primary:hover:not(:disabled) {
   background: var(--accent-press);
 }
 
+/* Status text */
 .status {
   font-size: 0.92rem;
   color: var(--muted);
@@ -145,94 +182,34 @@ button.primary:hover:not(:disabled) {
 }
 
 .status.error {
-  color: #ff6b6b;
+  color: var(--error-text);
   font-weight: 600;
 }
 
-.status.pending {
+.device-info {
+  margin-top: 0.75rem;
   color: var(--muted);
-}
-
-.test-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.6rem;
-  margin: 0.75rem 0;
-}
-
-.test-btn {
-  text-align: left;
-}
-
-.custom-row {
-  display: flex;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
-}
-
-.custom-row input {
-  flex: 1;
-  font: inherit;
-  font-family: var(--mono);
-  font-size: 0.9rem;
-  padding: 0.55rem 0.7rem;
-  border-radius: 9px;
-  border: 1px solid var(--card-border);
-  background: var(--bg);
-  color: var(--text);
-}
-
-.log {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  background: var(--bg);
-  border: 1px solid var(--card-border);
-  border-radius: 9px;
-  padding: 0.8rem;
-  max-height: 360px;
-  overflow: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0;
-}
-
-#device-info table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#device-info th,
-#device-info td {
-  text-align: left;
-  padding: 0.3rem 0.6rem 0.3rem 0;
-  vertical-align: top;
   font-size: 0.92rem;
 }
 
-#device-info th {
-  color: var(--muted);
-  font-weight: 500;
-  white-space: nowrap;
-  width: 1%;
+/* Inline notice (browser/claim warnings) */
+.notice {
+  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
 }
 
-#banner {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  word-break: break-all;
+.notice p {
+  margin: 0;
 }
 
-footer {
-  margin-top: 2rem;
-  color: var(--muted);
-  font-size: 0.85rem;
+.notice.error {
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
 }
 
-footer a {
-  color: var(--accent);
-}
-
+/* Results table */
 .results-table {
   border-collapse: collapse;
   width: 100%;
@@ -260,13 +237,52 @@ footer a {
 }
 
 .results-table .error {
-  color: #ff6b6b;
+  color: var(--error-text);
   font-weight: 600;
   word-break: break-word;
 }
 
+.results-table .muted {
+  color: var(--muted);
+}
+
 #setup-results {
   overflow-x: auto;
+}
+
+/* Collapsible technical log */
+.log-details {
+  margin-top: 1.75rem;
+}
+
+.log-details summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.log {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 9px;
+  padding: 0.8rem;
+  max-height: 320px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0.6rem 0 0;
+}
+
+footer {
+  margin-top: 2rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+footer a {
+  color: var(--accent);
 }
 
 .hidden {
