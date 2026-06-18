@@ -21,6 +21,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_category_privacy">
+
+        <SwitchPreferenceCompat
+            app:key="hide_clipboard"
+            app:title="@string/settings_hide_clipboard"
+            app:summary="@string/settings_hide_clipboard_summary"
+            app:defaultValue="false"
+            />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_category_server">
 
         <EditTextPreference

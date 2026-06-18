@@ -29,6 +29,10 @@
     <string name="settings_port_title">모든 프로필에서 동일한 TCP 포트를 설정해야 합니다</string>
     <string name="settings_port_description">공유할 정보를 선택하면 다른 프로필의 앱 인스턴스에 데이터를 제공하기 위해 로컬 루프백 인터페이스에 TCP 소켓이 열립니다.\n\n기본 포트 2411을 변경할 필요는 없습니다.</string>
 
+    <string name="settings_category_privacy">개인정보 보호</string>
+    <string name="settings_hide_clipboard">클립보드 내용 숨기기</string>
+    <string name="settings_hide_clipboard_summary">켜면 공유된 텍스트 조각의 내용이 알림에 표시되지 않아 포렌식 추출을 방지합니다.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">이 앱은 알림이 필요합니다. 스팸은 보내지 않습니다.</string>
     <string name="message_clipboard_empty">클립보드가 비어 있습니다.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">여러 텍스트 공유 중: \"%1$s\"</string>
     <string name="notifications_server_description_mixed">여러 데이터 공유 중 (%1$s)</string>
     <string name="notifications_server_description_unknown">데이터 공유 중</string>
+    <string name="notifications_server_description_text_hidden">텍스트 공유 중 (개인정보 보호를 위해 숨김)</string>
+    <string name="notifications_text_hidden">(개인정보 보호를 위해 숨김)</string>
 </resources>

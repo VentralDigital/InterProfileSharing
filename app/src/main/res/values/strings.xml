@@ -27,6 +27,9 @@
     <string name="settings_port">Port</string>
     <string name="settings_port_title">The same TCP Port must be set in all Profiles</string>
     <string name="settings_port_description">After selecting information to share, a TCP socket will be opened on the local loopback interface to serve data to instances of this App in other Android User Profiles.\n\nThere should normally be no need to deviate from the default port 2411.</string>
+    <string name="settings_category_privacy">Privacy</string>
+    <string name="settings_hide_clipboard">Hide Clipboard Contents</string>
+    <string name="settings_hide_clipboard_summary">When turned on, shared text snippet contents will not be displayed within notifications to prevent forensic extraction.</string>
 
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">This App requires notifications. No spam, promise.</string>
@@ -81,5 +84,7 @@
     <string name="notifications_server_description_texts">Sharing multiple texts \"%1$s\"</string>
     <string name="notifications_server_description_mixed">Sharing multiple items (%1$s)</string>
     <string name="notifications_server_description_unknown">Sharing item</string>
+    <string name="notifications_server_description_text_hidden">Sharing text (hidden for privacy)</string>
+    <string name="notifications_text_hidden">(hidden for privacy)</string>
 
 </resources>

@@ -367,7 +367,8 @@ class ServerService : BaseService() {
                     // Case: Sharing one Text item.
                     SharedItem.TYPE_TEXT -> {
                         // NotificationCompat handles truncation of long text.
-                        getString(R.string.notifications_server_description_text, item.text)
+                        if (hideClipboardContents()) getString(R.string.notifications_server_description_text_hidden)
+                        else getString(R.string.notifications_server_description_text, item.text)
                     }
                     // Case: Sharing one File item.
                     SharedItem.TYPE_FILE -> {
@@ -381,8 +382,8 @@ class ServerService : BaseService() {
             }
             // Case: Sharing multiple Text items.
             sharingList.all { it.type == SharedItem.TYPE_TEXT } -> {
-                val lastText = sharingList.last().text
-                getString(R.string.notifications_server_description_texts, lastText)
+                if (hideClipboardContents()) getString(R.string.notifications_server_description_text_hidden)
+                else getString(R.string.notifications_server_description_texts, sharingList.last().text)
             }
             // Case: Sharing multiple items (All Files, or mixed).
             else -> {

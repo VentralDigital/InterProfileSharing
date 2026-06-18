@@ -109,6 +109,14 @@ abstract class BaseService : Service() {
         return prefs.getBoolean("encryption", false)
     }
 
+    /**
+     * Whether shared text contents should be hidden from notifications (Privacy setting).
+     */
+    internal fun hideClipboardContents(): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        return prefs.getBoolean("hide_clipboard", false)
+    }
+
     internal fun hasNotificationPermission(): Boolean {
         return androidx.core.content.ContextCompat.checkSelfPermission(
             applicationContext,

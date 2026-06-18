@@ -29,6 +29,10 @@
     <string name="settings_port_title">所有配置文件必须设置相同的 TCP 端口</string>
     <string name="settings_port_description">选择要共享的信息后，将在本地回环接口上打开 TCP 套接字，为其他配置文件中的应用实例提供数据。\n\n通常无需更改默认端口 2411。</string>
 
+    <string name="settings_category_privacy">隐私</string>
+    <string name="settings_hide_clipboard">隐藏剪贴板内容</string>
+    <string name="settings_hide_clipboard_summary">开启后，共享的文本片段内容将不会显示在通知中，以防止取证提取。</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">此应用需要通知权限。保证不会发送垃圾信息。</string>
     <string name="message_clipboard_empty">剪贴板为空。</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">正在共享多个文本：\"%1$s\"</string>
     <string name="notifications_server_description_mixed">正在共享多个数据（%1$s）</string>
     <string name="notifications_server_description_unknown">正在共享数据</string>
+    <string name="notifications_server_description_text_hidden">正在共享文本（为保护隐私已隐藏）</string>
+    <string name="notifications_text_hidden">（为保护隐私已隐藏）</string>
 </resources>

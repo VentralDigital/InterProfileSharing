@@ -29,6 +29,10 @@
     <string name="settings_port_title">La stessa porta TCP deve essere configurata in tutti i profili</string>
     <string name="settings_port_description">Dopo aver selezionato le informazioni da condividere, viene aperto un socket TCP sull\'interfaccia di loopback locale per fornire dati ad altre istanze di questa app in altri profili.\n\nDi solito non c\'è motivo di cambiare la porta predefinita 2411.</string>
 
+    <string name="settings_category_privacy">Privacy</string>
+    <string name="settings_hide_clipboard">Nascondi il contenuto degli appunti</string>
+    <string name="settings_hide_clipboard_summary">Quando attivo, il contenuto degli snippet di testo condivisi non verrà mostrato nelle notifiche per impedire l\'estrazione forense.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Questa app ha bisogno delle notifiche. Niente spam, promesso!</string>
     <string name="message_clipboard_empty">Gli appunti sono vuoti.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Condivisione di più testi \"%1$s\"</string>
     <string name="notifications_server_description_mixed">Condivisione di più dati (%1$s)</string>
     <string name="notifications_server_description_unknown">Condivisione dati</string>
+    <string name="notifications_server_description_text_hidden">Condivisione testo (nascosto per privacy)</string>
+    <string name="notifications_text_hidden">(nascosto per privacy)</string>
 </resources>

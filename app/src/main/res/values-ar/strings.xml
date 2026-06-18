@@ -29,6 +29,10 @@
     <string name="settings_port_title">يجب تعيين نفس منفذ TCP في جميع الملفات الشخصية</string>
     <string name="settings_port_description">بعد اختيار المعلومات للمشاركة، يتم فتح منفذ TCP على واجهة loopback المحلية لخدمة البيانات لنسخ هذا التطبيق الأخرى في الملفات الشخصية الأخرى.\n\nعادةً لا يوجد سبب للابتعاد عن المنفذ الافتراضي 2411.</string>
 
+    <string name="settings_category_privacy">الخصوصية</string>
+    <string name="settings_hide_clipboard">إخفاء محتوى الحافظة</string>
+    <string name="settings_hide_clipboard_summary">عند التفعيل، لن يتم عرض محتوى مقتطفات النص المشتركة في الإشعارات لمنع الاستخراج الجنائي.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">يحتاج هذا التطبيق إلى الإشعارات. لا رسائل مزعجة، وعد.</string>
     <string name="message_clipboard_empty">الحافظة فارغة.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">جارٍ مشاركة عدة نصوص "\%1$s"\</string>
     <string name="notifications_server_description_mixed">جارٍ مشاركة بيانات متعددة (%1$s)</string>
     <string name="notifications_server_description_unknown">جارٍ مشاركة البيانات</string>
+    <string name="notifications_server_description_text_hidden">جارٍ مشاركة النص (مخفي للخصوصية)</string>
+    <string name="notifications_text_hidden">(مخفي للخصوصية)</string>
 </resources>

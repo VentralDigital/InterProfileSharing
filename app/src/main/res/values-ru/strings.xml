@@ -29,6 +29,10 @@
     <string name="settings_port_title">Во всех профилях должен быть настроен одинаковый TCP-порт</string>
     <string name="settings_port_description">После выбора данных для передачи, открывается TCP-сокет на локальном интерфейсе для обмена с копиями приложения в других профилях.\n\nОбычно нет причин менять порт по умолчанию 2411.</string>
 
+    <string name="settings_category_privacy">Конфиденциальность</string>
+    <string name="settings_hide_clipboard">Скрывать содержимое буфера обмена</string>
+    <string name="settings_hide_clipboard_summary">Когда включено, содержимое отправленных текстовых фрагментов не отображается в уведомлениях, чтобы предотвратить криминалистическое извлечение.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Приложению нужны уведомления. Спама не будет, обещаю.</string>
     <string name="message_clipboard_empty">Буфер обмена пуст.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Передаётся несколько текстов «%1$s»</string>
     <string name="notifications_server_description_mixed">Передаются данные (%1$s)</string>
     <string name="notifications_server_description_unknown">Передача данных</string>
+    <string name="notifications_server_description_text_hidden">Передаётся текст (скрыто для конфиденциальности)</string>
+    <string name="notifications_text_hidden">(скрыто для конфиденциальности)</string>
 </resources>

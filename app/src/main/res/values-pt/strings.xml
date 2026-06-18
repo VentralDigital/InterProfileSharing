@@ -29,6 +29,10 @@
     <string name="settings_port_title">A mesma porta TCP deve ser configurada em todos os perfis</string>
     <string name="settings_port_description">Após selecionar informações para compartilhar, um socket TCP é aberto na interface de loopback local para servir dados a outras instâncias deste aplicativo em outros perfis.\n\nNormalmente não há motivo para alterar a porta padrão 2411.</string>
 
+    <string name="settings_category_privacy">Privacidade</string>
+    <string name="settings_hide_clipboard">Ocultar conteúdo da área de transferência</string>
+    <string name="settings_hide_clipboard_summary">Quando ativado, o conteúdo dos trechos de texto compartilhados não será exibido nas notificações para evitar a extração forense.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Este aplicativo precisa de notificações. Sem spam, prometo.</string>
     <string name="message_clipboard_empty">Área de transferência vazia.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Compartilhando vários textos \"%1$s\"</string>
     <string name="notifications_server_description_mixed">Compartilhando vários dados (%1$s)</string>
     <string name="notifications_server_description_unknown">Compartilhando dados</string>
+    <string name="notifications_server_description_text_hidden">Compartilhando texto (oculto por privacidade)</string>
+    <string name="notifications_text_hidden">(oculto por privacidade)</string>
 </resources>

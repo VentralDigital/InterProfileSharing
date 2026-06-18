@@ -29,6 +29,10 @@
     <string name="settings_port_title">全プロファイルで同じTCPポートを設定</string>
     <string name="settings_port_description">共有時、ローカルループバックインターフェースにTCPソケットを開き、他プロファイルのアプリにデータを提供します。\n\n通常、デフォルトポート2411から変更する必要はありません。</string>
 
+    <string name="settings_category_privacy">プライバシー</string>
+    <string name="settings_hide_clipboard">クリップボードの内容を隠す</string>
+    <string name="settings_hide_clipboard_summary">オンにすると、共有されたテキストの内容が通知に表示されなくなり、フォレンジック抽出を防ぎます。</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">通知が必要です。スパムはありません。</string>
     <string name="message_clipboard_empty">クリップボードが空です</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">複数のテキスト「%1$s」を共有中</string>
     <string name="notifications_server_description_mixed">複数のデータ（%1$s）を共有中</string>
     <string name="notifications_server_description_unknown">データを共有中</string>
+    <string name="notifications_server_description_text_hidden">テキストを共有中（プライバシー保護のため非表示）</string>
+    <string name="notifications_text_hidden">（プライバシー保護のため非表示）</string>
 </resources>

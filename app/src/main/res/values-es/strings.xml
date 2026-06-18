@@ -29,6 +29,10 @@
     <string name="settings_port_title">El mismo puerto TCP debe configurarse en todos los perfiles</string>
     <string name="settings_port_description">Al seleccionar información para compartir, se abre un socket TCP en la interfaz de loopback local para servir datos a otras instancias de esta app en otros perfiles.\n\nNormalmente no hay razón para cambiar el puerto predeterminado 2411.</string>
 
+    <string name="settings_category_privacy">Privacidad</string>
+    <string name="settings_hide_clipboard">Ocultar contenido del portapapeles</string>
+    <string name="settings_hide_clipboard_summary">Cuando está activado, el contenido de los fragmentos de texto compartidos no se mostrará en las notificaciones para evitar la extracción forense.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Esta app necesita notificaciones. Sin spam, lo prometo.</string>
     <string name="message_clipboard_empty">El portapapeles está vacío.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Compartiendo varios textos \"%1$s\"</string>
     <string name="notifications_server_description_mixed">Compartiendo varios datos (%1$s)</string>
     <string name="notifications_server_description_unknown">Compartiendo datos</string>
+    <string name="notifications_server_description_text_hidden">Compartiendo texto (oculto por privacidad)</string>
+    <string name="notifications_text_hidden">(oculto por privacidad)</string>
 </resources>

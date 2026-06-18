@@ -348,9 +348,10 @@ class ClientService : BaseService() {
                         )
                     }
                     SharedItem.TYPE_TEXT -> {
+                        val displayText = if (hideClipboardContents()) getString(R.string.notifications_text_hidden) else item.text
                         setContentTitle(getString(R.string.notifications_share_text_title))
-                        setContentText(item.text)
-                        setStyle(NotificationCompat.BigTextStyle().bigText(item.text))
+                        setContentText(displayText)
+                        setStyle(NotificationCompat.BigTextStyle().bigText(displayText))
                         item.text?.let { text ->
                             addAction(
                                 android.R.drawable.ic_menu_save,

@@ -29,6 +29,10 @@
     <string name="settings_port_title">Der gleiche TCP-Port muss in allen Profilen eingestellt sein</string>
     <string name="settings_port_description">Nach der Auswahl der zu teilenden Informationen wird ein TCP-Socket auf der lokalen Loopback-Schnittstelle geöffnet, um Daten an Instanzen dieser App in anderen Android-Benutzerprofilen zu übertragen.\n\nNormalerweise sollte es keinen Grund geben, vom Standard-Port 2411 abzuweichen.</string>
 
+    <string name="settings_category_privacy">Datenschutz</string>
+    <string name="settings_hide_clipboard">Zwischenablage-Inhalte verbergen</string>
+    <string name="settings_hide_clipboard_summary">Wenn aktiviert, werden die Inhalte geteilter Textausschnitte nicht in Benachrichtigungen angezeigt, um eine forensische Extraktion zu verhindern.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Diese App benötigt Benachrichtigungen. Kein Spam, versprochen.</string>
     <string name="message_clipboard_empty">Zwischenablage ist leer.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Teile mehrere Texte \"%1$s\"</string>
     <string name="notifications_server_description_mixed">Teile mehrere Dinge (%1$s)</string>
     <string name="notifications_server_description_unknown">Teile daten</string>
+    <string name="notifications_server_description_text_hidden">Teile Text (aus Datenschutzgründen verborgen)</string>
+    <string name="notifications_text_hidden">(aus Datenschutzgründen verborgen)</string>
 </resources>

@@ -29,6 +29,10 @@
     <string name="settings_port_title">Le même port TCP doit être configuré dans tous les profils</string>
     <string name="settings_port_description">Après la sélection des informations à partager, un socket TCP est ouvert sur l\'interface de loopback locale pour servir les données aux autres instances de cette application dans d\'autres profils.\n\nIl n\'y a généralement aucune raison de s\'écarter du port 2411 par défaut.</string>
 
+    <string name="settings_category_privacy">Confidentialité</string>
+    <string name="settings_hide_clipboard">Masquer le contenu du presse-papiers</string>
+    <string name="settings_hide_clipboard_summary">Lorsque cette option est activée, le contenu des extraits de texte partagés ne sera pas affiché dans les notifications afin d\'empêcher une extraction forensique.</string>
+
     <!-- Strings in Toast Messages -->
     <string name="message_notification_required">Cette application nécessite des notifications. Pas de spam, promis !</string>
     <string name="message_clipboard_empty">Le presse-papiers est vide.</string>
@@ -82,4 +86,6 @@
     <string name="notifications_server_description_texts">Partage de plusieurs textes « %1$s »</string>
     <string name="notifications_server_description_mixed">Partage de données multiples (%1$s)</string>
     <string name="notifications_server_description_unknown">Partage de données</string>
+    <string name="notifications_server_description_text_hidden">Partage du texte (masqué pour confidentialité)</string>
+    <string name="notifications_text_hidden">(masqué pour confidentialité)</string>
 </resources>
