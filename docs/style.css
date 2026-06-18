@@ -233,6 +233,42 @@ footer a {
   color: var(--accent);
 }
 
+.results-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.results-table th,
+.results-table td {
+  text-align: left;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--card-border);
+  vertical-align: top;
+}
+
+.results-table th {
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom-width: 2px;
+}
+
+.results-table .ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.results-table .error {
+  color: #ff6b6b;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+#setup-results {
+  overflow-x: auto;
+}
+
 .hidden {
   display: none !important;
 }

@@ -59,11 +59,27 @@
 
       <section id="device-info" class="card hidden"></section>
 
+      <section id="setup" class="card hidden">
+        <h2>Configure InterProfileSharing across all users</h2>
+        <p class="muted">
+          Runs the full setup automatically: lists every user profile, finds the
+          ones with <code id="target-package">digital.ventral.ips</code>
+          installed, grants
+          <code>android.permission.INTERACT_ACROSS_USERS</code> to each, and
+          force-stops the app so it restarts fresh.
+        </p>
+        <div class="controls">
+          <button id="run-setup" class="primary">Run setup</button>
+          <span class="status" id="setup-status"></span>
+        </div>
+        <div id="setup-results"></div>
+      </section>
+
       <section id="tests" class="card hidden">
-        <h2>Test commands</h2>
+        <h2>Manual shell commands</h2>
         <p class="muted">
           Each button opens a <code>shell:</code> stream to the device and shows
-          the output below — proof that the browser is speaking ADB directly.
+          the output below — handy for poking at the device directly.
         </p>
         <div class="custom-row">
           <input
