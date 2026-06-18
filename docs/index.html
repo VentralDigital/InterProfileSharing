@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebADB — connect to Android over WebUSB</title>
+    <meta
+      name="description"
+      content="Connect to an Android device with USB debugging straight from your browser. A host-side ADB implementation over WebUSB — no native adb required."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>WebADB</h1>
+        <p class="tagline">
+          A host-side <strong>ADB</strong> implementation that runs in your
+          browser over <strong>WebUSB</strong> — no native <code>adb</code>
+          executable required.
+        </p>
+      </header>
+
+      <section class="card warn" id="prereq">
+        <h2>Before you start</h2>
+        <ol>
+          <li>
+            Use a <strong>Chromium-based browser</strong> (Chrome, Edge, Brave,
+            Opera) on desktop or Android. Firefox and Safari do not support
+            WebUSB.
+          </li>
+          <li>
+            On the phone: enable <strong>Developer options</strong> →
+            <strong>USB debugging</strong>, then connect it by USB.
+          </li>
+          <li>
+            <strong>Run <code>adb kill-server</code> first.</strong> The ADB USB
+            interface is exclusive: if a native ADB server, Android Studio, or
+            another browser tab already owns it, the browser cannot claim it.
+          </li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <div class="controls">
+          <button id="connect" class="primary">Connect a device</button>
+          <button id="disconnect" disabled>Disconnect</button>
+          <span class="status" id="status">Not connected</span>
+        </div>
+
+        <div id="support-warning" class="card error hidden">
+          <p>
+            Could not claim the ADB interface. Make sure you ran
+            <code>adb kill-server</code> and closed Android Studio / other tabs
+            that may hold the device, then try again.
+          </p>
+        </div>
+      </section>
+
+      <section id="device-info" class="card hidden"></section>
+
+      <section id="tests" class="card hidden">
+        <h2>Test commands</h2>
+        <p class="muted">
+          Each button opens a <code>shell:</code> stream to the device and shows
+          the output below — proof that the browser is speaking ADB directly.
+        </p>
+        <div class="custom-row">
+          <input
+            id="custom-cmd"
+            type="text"
+            placeholder="custom shell command, e.g. getprop ro.product.cpu.abi"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button id="run-custom">Run</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Log</h2>
+        <pre id="log" class="log"></pre>
+      </section>
+
+      <footer>
+        <p>
+          This page implements the ADB transport protocol (24-byte little-endian
+          headers, multiplexed streams, RSA token authentication) directly in
+          JavaScript. Source lives in
+          <code>docs/</code> of the
+          <a href="https://github.com/VentralDigital/InterProfileSharing"
+            >InterProfileSharing</a
+          >
+          repository. Nothing leaves your machine — the USB connection is
+          entirely local.
+        </p>
+      </footer>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
