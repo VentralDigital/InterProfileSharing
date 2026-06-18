@@ -1,8 +1,10 @@
 package digital.ventral.ips
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -238,6 +240,22 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
+     * On Android 17+ the app needs INTERACT_ACROSS_USERS to detect its instances in other
+     * user profiles. This is a protected permission that cannot be requested at runtime;
+     * it has to be granted out-of-band via ADB. If it is missing, point the user to the
+     * web tool that performs the grant for them.
+     */
+    private fun checkCrossUserPermission() {
+        if (Build.VERSION.SDK_INT >= 37 &&
+            checkSelfPermission("android.permission.INTERACT_ACROSS_USERS") != PackageManager.PERMISSION_GRANTED
+        ) {
+            AlertDialog.Builder(this)
+                .setMessage(getString(R.string.message_android17_workaround))
+                .show()
+        }
+    }
+
+    /**
      * Triggered when MainActivity UI comes into focus.
      *
      * This happens after onCreate(), when coming back from the SettingsActivity or simply when
@@ -255,6 +273,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkNotificationPermission()
+        checkCrossUserPermission()
         enableEdgeToEdge()
         intent?.let { handleIntent(it) }
 

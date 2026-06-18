@@ -40,6 +40,7 @@
     <string name="message_port_invalid">포트는 1024에서 65535 사이의 숫자여야 합니다.</string>
     <string name="message_share_text_copy_success">텍스트가 클립보드에 복사되었습니다</string>
     <string name="message_server_start_failed">포트를 열지 못했습니다. 네트워크 권한이 없나요?</string>
+    <string name="message_android17_workaround">앱이 작동하려면 Android 17+ 우회 방법이 필요합니다. 컴퓨터에서 https://ventraldigital.github.io/InterProfileSharing/ 에 접속해 주세요.</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">공유 알림</string>

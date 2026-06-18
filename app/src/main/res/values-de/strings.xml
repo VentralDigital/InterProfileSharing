@@ -40,6 +40,7 @@
     <string name="message_port_invalid">Port muss eine Zahl zwischen 1024 und 65535 sein.</string>
     <string name="message_share_text_copy_success">Text in Zwischenablage kopiert</string>
     <string name="message_server_start_failed">Port konnte nicht geöffnet werden. Fehlt die Netzwerk-Berechtigung?</string>
+    <string name="message_android17_workaround">Android 17+ work-around erforderlich, damit die App funktioniert. Bitte https://ventraldigital.github.io/InterProfileSharing/ auf einem Computer besuchen.</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">Freigabe-Benachrichtigungen</string>

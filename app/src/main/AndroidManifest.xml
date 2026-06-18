@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CLIPBOARD_WRITE" />
+    <!-- Required on Android 17+ so the app can detect its instances in other user
+         profiles. Cannot be requested at runtime; it is granted out-of-band via ADB
+         (see https://ventraldigital.github.io/InterProfileSharing/). -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"

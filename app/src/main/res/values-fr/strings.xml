@@ -40,6 +40,7 @@
     <string name="message_port_invalid">Le port doit être un nombre entre 1024 et 65535.</string>
     <string name="message_share_text_copy_success">Texte copié dans le presse-papiers</string>
     <string name="message_server_start_failed">Échec de l\'ouverture du port. Autorisation réseau manquante ?</string>
+    <string name="message_android17_workaround">Une solution de contournement pour Android 17+ est nécessaire au fonctionnement de l\'application. Visite https://ventraldigital.github.io/InterProfileSharing/ sur ton ordinateur.</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">Notifications de partage</string>

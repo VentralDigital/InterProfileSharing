@@ -40,6 +40,7 @@
     <string name="message_port_invalid">La porta deve essere un numero tra 1024 e 65535.</string>
     <string name="message_share_text_copy_success">Testo copiato negli appunti</string>
     <string name="message_server_start_failed">Apertura della porta non riuscita. Manca l\'autorizzazione di rete?</string>
+    <string name="message_android17_workaround">È necessaria una soluzione alternativa per Android 17+ affinché l\'app funzioni. Visita https://ventraldigital.github.io/InterProfileSharing/ dal tuo computer.</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">Notifiche di condivisione</string>

@@ -40,6 +40,7 @@
     <string name="message_port_invalid">ポートは1024～65535の数値で指定してください</string>
     <string name="message_share_text_copy_success">クリップボードにコピーしました</string>
     <string name="message_server_start_failed">ポートを開けませんでした。ネットワーク権限がありませんか？</string>
+    <string name="message_android17_workaround">アプリが動作するには Android 17+ 用の回避策が必要です。パソコンで https://ventraldigital.github.io/InterProfileSharing/ にアクセスしてください。</string>
 
     <!-- Strings in and around Notifications -->
     <string name="notifications_channel_name">共有通知</string>
