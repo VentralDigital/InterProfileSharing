@@ -14,8 +14,9 @@ const els = {
   grantBtn: document.getElementById("grant"),
   step4Status: document.getElementById("step4-status"),
   step5Status: document.getElementById("step5-status"),
+  step5Intro: document.getElementById("step5-intro"),
   deviceInfo: document.getElementById("device-info"),
-  setupResults: document.getElementById("setup-results"),
+  profilesTable: document.getElementById("profiles-table"),
   support: document.getElementById("support-warning"),
   log: document.getElementById("log"),
   step4: document.getElementById("step-4"),
@@ -25,6 +26,10 @@ const els = {
 let connection = null;
 let adbKey = null;
 let busy = false;
+
+// Profiles discovered on the device, plus per-row DOM references.
+let profiles = []; // [{ id, name, running, installed }]
+const rowEls = new Map(); // id -> { checkbox, resultCell }
 
 function log(line) {
   const time = new Date().toLocaleTimeString();
@@ -60,17 +65,17 @@ async function connect() {
     setStatus(els.step4Status, "Connecting…", "pending");
     await connection.open();
 
-    setStatus(els.step4Status, "Waiting for you to accept on the phone…", "pending");
+    setStatus(els.step4Status, "Waiting for you to tap \"Allow\" on the phone…", "pending");
     await connection.connect(adbKey);
 
     els.deviceInfo.textContent = "Connected to " + (device.productName || "your phone") + ".";
     els.deviceInfo.classList.remove("hidden");
     setStatus(els.step4Status, "Connected ✓", "ok");
     setStepDone(els.step4, true);
-
-    els.grantBtn.disabled = false;
-    setStatus(els.step5Status, "Ready — click \"Grant permission\".", "");
     log("Phone connected and authenticated.");
+
+    // Step 5 becomes interactive: list the profiles and show the table.
+    await scanProfiles();
   } catch (e) {
     log(`Connection failed: ${e.message}`);
     setStatus(els.step4Status, "Connection failed", "error");
@@ -88,7 +93,7 @@ async function connect() {
   }
 }
 
-// --- Step 5: grant the permission across all profiles ----------------------
+// --- Step 5: discover profiles, then grant on confirmation -----------------
 
 // Parse `pm list users` output into [{ id, name, running }].
 //   Users:
@@ -112,71 +117,144 @@ function resultFrom(output) {
   return text === "" ? { ok: true, message: "OK" } : { ok: false, message: text };
 }
 
-async function grant() {
-  if (!connection || busy) return;
-  busy = true;
-  els.grantBtn.disabled = true;
-  els.setupResults.innerHTML = "";
+// List the user profiles and which of them have the app, and render the table.
+async function scanProfiles() {
   setStatus(els.step5Status, "Looking for user profiles…", "pending");
-  log("=== Granting " + PERMISSION + " to " + TARGET_PACKAGE + " ===");
-
+  log("Listing user profiles…");
   try {
-    // 1. Get all user profiles.
     const usersOut = await connection.runService("shell:pm list users");
-    const users = parseUsers(usersOut);
-    if (users.length === 0) {
+    profiles = parseUsers(usersOut);
+    if (profiles.length === 0) {
       throw new Error("Could not read the list of user profiles.\n" + usersOut.trim());
     }
-    log(`Found ${users.length} user profile(s): ${users.map((u) => `${u.id}:${u.name}`).join(", ")}`);
 
-    const rows = [];
-    let configured = 0;
-
-    for (const user of users) {
-      const row = { user, installed: false, grant: null, restart: null };
-
-      // 2. Is the app installed for this user?
+    for (const p of profiles) {
       const pkgOut = await connection.runService(
-        `shell:pm list packages --user ${user.id} ${TARGET_PACKAGE}`,
+        `shell:pm list packages --user ${p.id} ${TARGET_PACKAGE}`,
       );
-      row.installed = pkgOut.includes("package:" + TARGET_PACKAGE);
-
-      if (row.installed) {
-        log(`User ${user.id} (${user.name}): app is installed.`);
-
-        // 3. Grant the cross-user permission.
-        const grantOut = await connection.runService(
-          `shell:pm grant --user ${user.id} ${TARGET_PACKAGE} ${PERMISSION}`,
-        );
-        row.grant = resultFrom(grantOut);
-        log(`  grant --user ${user.id}: ${row.grant.message}`);
-
-        // 4. Force-stop so the app restarts fresh with the new permission.
-        const stopOut = await connection.runService(
-          `shell:am force-stop --user ${user.id} ${TARGET_PACKAGE}`,
-        );
-        row.restart = resultFrom(stopOut);
-        log(`  force-stop --user ${user.id}: ${row.restart.message}`);
-
-        configured++;
-      } else {
-        log(`User ${user.id} (${user.name}): app not installed — skipped.`);
-      }
-
-      rows.push(row);
+      p.installed = pkgOut.includes("package:" + TARGET_PACKAGE);
+      log(`User ${p.id} (${p.name}): app ${p.installed ? "installed" : "not installed"}.`);
     }
 
-    renderResults(rows);
+    renderProfilesTable();
+    els.step5Intro.classList.add("hidden");
 
-    const anyGrantFailed = rows.some((r) => r.grant && !r.grant.ok);
-    if (configured === 0) {
-      setStatus(els.step5Status, "The app is not installed in any profile yet.", "error");
-    } else if (anyGrantFailed) {
-      setStatus(els.step5Status, `Granted in ${configured} profile(s), but some failed — see below.`, "error");
+    const installedCount = profiles.filter((p) => p.installed).length;
+    if (installedCount === 0) {
+      els.grantBtn.disabled = true;
+      setStatus(
+        els.step5Status,
+        "The app is not installed in any profile yet — install it first, then reconnect.",
+        "error",
+      );
+    } else {
+      els.grantBtn.disabled = false;
+      setStatus(
+        els.step5Status,
+        `Found ${installedCount} profile(s) with the app. Review the selection and click "Grant permission".`,
+        "",
+      );
+    }
+  } catch (e) {
+    log(`Failed to list profiles: ${e.message}`);
+    setStatus(els.step5Status, "Could not read the user profiles — see the log.", "error");
+  }
+}
+
+function renderProfilesTable() {
+  rowEls.clear();
+  const table = document.createElement("table");
+  table.className = "results-table";
+  table.innerHTML =
+    "<thead><tr><th>Grant?</th><th>User</th><th>Profile</th>" +
+    "<th>App installed</th><th>Result</th></tr></thead>";
+  const tbody = document.createElement("tbody");
+
+  for (const p of profiles) {
+    const tr = document.createElement("tr");
+
+    // Checkbox: checked when the app is installed, disabled (and off) otherwise.
+    const cbCell = document.createElement("td");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = p.installed;
+    checkbox.disabled = !p.installed;
+    cbCell.appendChild(checkbox);
+
+    const idCell = document.createElement("td");
+    idCell.textContent = String(p.id);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = p.name;
+
+    const installedCell = document.createElement("td");
+    installedCell.textContent = p.installed ? "yes" : "no";
+
+    const resultCell = document.createElement("td");
+    resultCell.appendChild(skipped());
+
+    tr.append(cbCell, idCell, nameCell, installedCell, resultCell);
+    tbody.appendChild(tr);
+    rowEls.set(p.id, { checkbox, resultCell });
+  }
+
+  table.appendChild(tbody);
+  els.profilesTable.innerHTML = "";
+  els.profilesTable.appendChild(table);
+}
+
+// Apply the grant + restart to every selected (checked) profile.
+async function grant() {
+  if (!connection || busy) return;
+
+  const selected = profiles.filter((p) => p.installed && rowEls.get(p.id).checkbox.checked);
+  if (selected.length === 0) {
+    setStatus(els.step5Status, "Select at least one profile to grant.", "error");
+    return;
+  }
+
+  busy = true;
+  els.grantBtn.disabled = true;
+  // Lock the checkboxes while we work so the selection can't change mid-run.
+  for (const { checkbox } of rowEls.values()) checkbox.disabled = true;
+  setStatus(els.step5Status, "Granting permission…", "pending");
+  log("=== Granting " + PERMISSION + " to " + TARGET_PACKAGE + " ===");
+
+  let failures = 0;
+  try {
+    for (const p of selected) {
+      const { resultCell } = rowEls.get(p.id);
+
+      // Grant the cross-user permission.
+      const grantOut = await connection.runService(
+        `shell:pm grant --user ${p.id} ${TARGET_PACKAGE} ${PERMISSION}`,
+      );
+      const grantRes = resultFrom(grantOut);
+      log(`  grant --user ${p.id}: ${grantRes.message}`);
+
+      // Force-stop so the app restarts fresh with the new permission.
+      let restartRes = { ok: true, message: "OK" };
+      if (grantRes.ok) {
+        const stopOut = await connection.runService(
+          `shell:am force-stop --user ${p.id} ${TARGET_PACKAGE}`,
+        );
+        restartRes = resultFrom(stopOut);
+        log(`  force-stop --user ${p.id}: ${restartRes.message}`);
+      }
+
+      const ok = grantRes.ok && restartRes.ok;
+      if (!ok) failures++;
+      resultCell.innerHTML = "";
+      resultCell.appendChild(
+        statusCell(ok ? { ok: true, message: "Granted & restarted" } : (grantRes.ok ? restartRes : grantRes)),
+      );
+    }
+
+    if (failures === 0) {
+      setStatus(els.step5Status, `✓ Done — granted in ${selected.length} profile(s).`, "ok");
       setStepDone(els.step5, true);
     } else {
-      setStatus(els.step5Status, `✓ All set in ${configured} profile(s).`, "ok");
-      setStepDone(els.step5, true);
+      setStatus(els.step5Status, `Finished with ${failures} problem(s) — see the table.`, "error");
     }
     log("=== Done ===");
   } catch (e) {
@@ -184,44 +262,21 @@ async function grant() {
     setStatus(els.step5Status, "Something went wrong — see the log.", "error");
   } finally {
     busy = false;
-    if (connection) els.grantBtn.disabled = false;
-  }
-}
-
-function renderResults(rows) {
-  const table = document.createElement("table");
-  table.className = "results-table";
-  table.innerHTML =
-    "<thead><tr><th>User</th><th>Profile</th><th>App installed</th>" +
-    "<th>Permission granted</th><th>Restarted</th></tr></thead>";
-  const tbody = document.createElement("tbody");
-
-  for (const r of rows) {
-    const tr = document.createElement("tr");
-    const cells = [
-      String(r.user.id),
-      r.user.name,
-      r.installed ? "yes" : "no",
-      r.grant ? statusCell(r.grant) : skipped(),
-      r.restart ? statusCell(r.restart) : skipped(),
-    ];
-    for (const c of cells) {
-      const td = document.createElement("td");
-      if (c instanceof Node) td.appendChild(c);
-      else td.textContent = c;
-      tr.appendChild(td);
+    // Re-enable so the user can adjust the selection and try again.
+    if (connection) {
+      els.grantBtn.disabled = false;
+      for (const p of profiles) {
+        const entry = rowEls.get(p.id);
+        if (entry) entry.checkbox.disabled = !p.installed;
+      }
     }
-    tbody.appendChild(tr);
   }
-  table.appendChild(tbody);
-  els.setupResults.innerHTML = "";
-  els.setupResults.appendChild(table);
 }
 
 function statusCell(result) {
   const span = document.createElement("span");
   span.className = result.ok ? "ok" : "error";
-  span.textContent = result.ok ? "✓ OK" : "✗ " + result.message;
+  span.textContent = result.ok ? "✓ " + result.message : "✗ " + result.message;
   span.title = result.message;
   return span;
 }
@@ -245,6 +300,10 @@ async function cleanup() {
     await connection.close();
     connection = null;
   }
+  profiles = [];
+  rowEls.clear();
+  els.profilesTable.innerHTML = "";
+  els.step5Intro.classList.remove("hidden");
   els.grantBtn.disabled = true;
   setStepDone(els.step4, false);
   setStepDone(els.step5, false);
@@ -269,6 +328,7 @@ function init() {
     if (connection && e.device === connection.device) {
       log("Phone was disconnected.");
       setStatus(els.step4Status, "Phone disconnected — reconnect to continue.", "error");
+      setStatus(els.step5Status, "", "");
       els.connectBtn.disabled = false;
       cleanup();
     }

@@ -33,7 +33,7 @@
           <ul>
             <li>
               First, install the Inter Profile Sharing App within all User
-              Profiles you wish to share information between. This tool grants
+              Profiles you wish to share information between. The web tool grants
               the necessary permission to the app within each User Profile where
               it is installed. You can run it again later if you have a new User
               Profile with the app installed.
@@ -92,11 +92,11 @@
             cable to connect your phone to this computer. Once done, click the
             Connect button below. The browser will then ask you to select a
             device. If your Phone is properly connected, you should be able to
-            select it here.
+            select it there.
           </p>
           <p>
             Your phone will now ask you to authenticate the connection. For the
-            tool to work you have to accept this.
+            tool to work you have to tap "Allow".
           </p>
           <div class="actions">
             <button id="connect" class="primary">Connect</button>
@@ -110,25 +110,18 @@
       <section class="step" id="step-5">
         <div class="step-head"><span class="step-num">5</span><h2>Granting the Permission</h2></div>
         <div class="step-body">
-          <p>
-            Now that your phone is connected and authenticated, click the button
-            below. This tool will automatically:
+          <p id="step5-intro">
+            Once your phone is connected and authenticated, we will list your
+            Phone's User Profiles and check which of them have the Inter Profile
+            Sharing app installed. You can then confirm to grant the necessary
+            permission to them and we'll restart the app to ensure it will take
+            effect immediately.
           </p>
-          <ul>
-            <li>find every User Profile on your phone,</li>
-            <li>check which of them have Inter Profile Sharing installed,</li>
-            <li>grant the required permission to each of them, and</li>
-            <li>restart the app so the change takes effect right away.</li>
-          </ul>
-          <p>
-            Just watch the results appear below. You can come back and press it
-            again later whenever you add the app to a new User Profile.
-          </p>
+          <div id="profiles-table"></div>
           <div class="actions">
             <button id="grant" class="primary" disabled>Grant permission</button>
             <span class="status" id="step5-status"></span>
           </div>
-          <div id="setup-results"></div>
         </div>
       </section>
 
