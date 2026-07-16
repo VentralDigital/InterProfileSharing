@@ -80,7 +80,7 @@ Install this App within each profile that you want to share data with (no way ar
 
 * Works right out of the box without any setup
 * Also works with Private Spaces and Work Profiles
-* Completely local, also works in Airplaine mode
+* Completely local, also works in Airplane mode
 * Tapping "Stop Sharing" on the notification completely shuts sharing down
 
 ## Security
