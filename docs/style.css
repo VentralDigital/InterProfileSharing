@@ -170,6 +170,17 @@ button.primary:hover:not(:disabled) {
   background: var(--accent-press);
 }
 
+/* Done state: reads as quiet text, not as something left to click. */
+button.granted:disabled {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  padding-left: 0;
+  padding-right: 0;
+  opacity: 1;
+  cursor: default;
+}
+
 /* Status text */
 .status {
   font-size: 0.92rem;

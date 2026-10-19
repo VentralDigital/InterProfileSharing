@@ -46,6 +46,16 @@ function setStepDone(stepEl, done) {
   stepEl.classList.toggle("done", done);
 }
 
+// After a successful grant the button turns into a disabled "granted" label so
+// it no longer looks like the next thing to click. Changing the selection turns
+// it back into the primary "Grant permission" button.
+function setGrantButtonGranted(granted) {
+  els.grantBtn.classList.toggle("primary", !granted);
+  els.grantBtn.classList.toggle("granted", granted);
+  els.grantBtn.textContent = granted ? "Permission granted" : "Grant permission";
+  if (granted) els.grantBtn.disabled = true;
+}
+
 // --- Step 4: connect & authenticate ----------------------------------------
 
 async function connect() {
@@ -179,6 +189,11 @@ function renderProfilesTable() {
     checkbox.type = "checkbox";
     checkbox.checked = p.installed;
     checkbox.disabled = !p.installed;
+    // A new selection hasn't been granted yet, so make the button primary again.
+    checkbox.addEventListener("change", () => {
+      setGrantButtonGranted(false);
+      els.grantBtn.disabled = false;
+    });
     cbCell.appendChild(checkbox);
 
     const idCell = document.createElement("td");
@@ -215,6 +230,7 @@ async function grant() {
 
   busy = true;
   els.grantBtn.disabled = true;
+  setGrantButtonGranted(false);
   // Lock the checkboxes while we work so the selection can't change mid-run.
   for (const { checkbox } of rowEls.values()) checkbox.disabled = true;
   setStatus(els.step5Status, "Granting permission…", "pending");
@@ -253,6 +269,7 @@ async function grant() {
     if (failures === 0) {
       setStatus(els.step5Status, `✓ Done — granted in ${selected.length} profile(s).`, "ok");
       setStepDone(els.step5, true);
+      setGrantButtonGranted(true);
     } else {
       setStatus(els.step5Status, `Finished with ${failures} problem(s) — see the table.`, "error");
     }
@@ -262,9 +279,10 @@ async function grant() {
     setStatus(els.step5Status, "Something went wrong — see the log.", "error");
   } finally {
     busy = false;
-    // Re-enable so the user can adjust the selection and try again.
+    // Re-enable so the user can adjust the selection and try again — unless it
+    // just succeeded, in which case the button stays as the "granted" label.
     if (connection) {
-      els.grantBtn.disabled = false;
+      els.grantBtn.disabled = els.grantBtn.classList.contains("granted");
       for (const p of profiles) {
         const entry = rowEls.get(p.id);
         if (entry) entry.checkbox.disabled = !p.installed;
@@ -305,6 +323,7 @@ async function cleanup() {
   els.profilesTable.innerHTML = "";
   els.step5Intro.classList.remove("hidden");
   els.grantBtn.disabled = true;
+  setGrantButtonGranted(false);
   setStepDone(els.step4, false);
   setStepDone(els.step5, false);
   els.deviceInfo.classList.add("hidden");
